@@ -1,0 +1,13 @@
+{
+  "mcpServers": {
+    "necropsy": {
+      "command": "python",
+      "args": ["-m", "necropsy.cli", "mcp"],
+      "env": {
+        "DATABASE_PATH": "./necropsy.db"
+      },
+      "disabled": false,
+      "autoApprove": ["list_graveyard", "get_exhibit"]
+    }
+  }
+}

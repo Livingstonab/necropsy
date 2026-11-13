@@ -1,0 +1,16 @@
+{
+  "enabled": true,
+  "name": "No-Clone Guard",
+  "description": "Fires before any shell command. Inspects the command for repository cloning or archive-download patterns and blocks them, keeping NECROPSY on the GitHub REST API only. Exists because \"no code execution, no cloning, ever\" (engineering rule E4) is a security and scope boundary that is easy to breach accidentally while debugging an analysis.",
+  "version": "1",
+  "when": {
+    "type": "preToolUse",
+    "toolTypes": [
+      "shell"
+    ]
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "Engineering rule E4 check before this shell command runs. NECROPSY must never clone a repository, download a repository archive, or execute analyzed repository code. Inspect the pending command. If it contains `git clone`, `git fetch` against an analyzed repo, `curl`/`wget`/`Invoke-WebRequest` against a codeload/tarball/zipball/archive URL, `tar`/`unzip` of repository content, or any attempt to run code from an analyzed repository, then ACCESS IS DENIED: do not run it, say which rule it breaches, and propose the GitHub REST API equivalent (for example `GET /repos/{owner}/{repo}/git/trees/{sha}?recursive=1` instead of cloning to list files). Otherwise state that no E4 violation was detected and proceed with the command unchanged."
+  }
+}

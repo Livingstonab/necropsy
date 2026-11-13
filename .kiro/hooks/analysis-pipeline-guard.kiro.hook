@@ -1,0 +1,25 @@
+{
+  "enabled": true,
+  "name": "Analysis Pipeline Guard",
+  "description": "On save of any pipeline, scoring, LLM, store or test file, runs the full offline test suite once, then Ruff, then mypy-strict on the analysis and scoring packages. Enforces engineering rules E6, E7 and E11: the scorer stays pure and monotone, and the suite always passes with no network and no API keys.",
+  "version": "1",
+  "when": {
+    "type": "fileEdited",
+    "patterns": [
+      "necropsy/analysis/*.py",
+      "necropsy/scoring/*.py",
+      "necropsy/llm/*.py",
+      "necropsy/github/*.py",
+      "necropsy/store/*.py",
+      "necropsy/models/*.py",
+      "necropsy/graveyard/*.py",
+      "necropsy/mcp/*.py",
+      "tests/*.py"
+    ]
+  },
+  "then": {
+    "type": "runCommand",
+    "command": "python -m pytest tests -q & python -m ruff check necropsy tests & python -m mypy necropsy/analysis necropsy/scoring",
+    "timeout": 300
+  }
+}

@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}NECROPSY — {{ error.code }}{% endblock %}
+{% block content %}
+<section class="error-frame">
+  <div class="error-spot" aria-hidden="true"></div>
+  <p class="error-code mono">{{ error.code }}</p>
+  <p class="error-message">{{ error.message }}</p>
+  {% if error.next_action %}
+  <p class="error-next">{{ error.next_action }}</p>
+  {% endif %}
+  <a class="begin-btn" href="{{ url_for('gallery') }}">Return to the graveyard</a>
+  {% if error.correlation_id %}
+  <p class="error-cid mono">reference: {{ error.correlation_id }}</p>
+  {% endif %}
+</section>
+{% endblock %}

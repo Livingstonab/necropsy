@@ -1,0 +1,297 @@
+{
+  "_meta": {
+    "as_of": "2026-11-01T00:00:00+00:00",
+    "canonical_url": "github.com/necropsy-specimens/atlas-mapper",
+    "note": "compiled specimen: this exhibit's payloads were written offline to demonstrate a failure mode, and are not a capture of a live repository",
+    "pinned_commit_sha": "5pec1men820af120a5ed001b08f4003342891cb6",
+    "provenance": "compiled_specimen",
+    "slug": "atlas-mapper"
+  },
+  "calls_used": 9,
+  "payloads": {
+    "contents": {
+      "requirements.txt": {
+        "content": "bm9zZT09MS4zLjcKbW9jaz09Mi4wLjAKbnVtcHk+PTEuMTEsPDEuMTcKc2l4PT0xLjExLjAKUGlsbG93PT01LjQuMQo=",
+        "encoding": "base64",
+        "path": "requirements.txt"
+      }
+    },
+    "head_commit": {
+      "commit": {
+        "author": {
+          "date": "2019-03-12T14:22:09+00:00"
+        },
+        "committer": {
+          "date": "2019-03-12T14:22:09+00:00"
+        },
+        "message": "Add deprecation notice to README"
+      },
+      "sha": "5pec1men820af120a5ed001b08f4003342891cb6"
+    },
+    "languages": {
+      "C": 94000,
+      "Makefile": 4200,
+      "Python": 486000
+    },
+    "latest_release": {
+      "published_at": "2018-11-20T00:00:00+00:00",
+      "tag_name": "v1.4.0"
+    },
+    "open_issues": [
+      {
+        "comments": 0,
+        "created_at": "2017-02-11T00:00:00+00:00",
+        "number": 1,
+        "state": "open",
+        "title": "Open issue 1",
+        "updated_at": "2021-08-02T09:14:00+00:00"
+      },
+      {
+        "comments": 0,
+        "created_at": "2017-02-11T00:00:00+00:00",
+        "number": 2,
+        "state": "open",
+        "title": "Open issue 2",
+        "updated_at": "2021-08-02T09:14:00+00:00"
+      },
+      {
+        "comments": 0,
+        "created_at": "2017-02-11T00:00:00+00:00",
+        "number": 3,
+        "state": "open",
+        "title": "Open issue 3",
+        "updated_at": "2021-08-02T09:14:00+00:00"
+      },
+      {
+        "comments": 0,
+        "created_at": "2017-02-11T00:00:00+00:00",
+        "number": 4,
+        "state": "open",
+        "title": "Open issue 4",
+        "updated_at": "2021-08-02T09:14:00+00:00"
+      },
+      {
+        "comments": 0,
+        "created_at": "2017-02-11T00:00:00+00:00",
+        "number": 5,
+        "state": "open",
+        "title": "Open issue 5",
+        "updated_at": "2021-08-02T09:14:00+00:00"
+      },
+      {
+        "comments": 0,
+        "created_at": "2017-02-11T00:00:00+00:00",
+        "number": 6,
+        "state": "open",
+        "title": "Open issue 6",
+        "updated_at": "2021-08-02T09:14:00+00:00"
+      },
+      {
+        "comments": 0,
+        "created_at": "2017-02-11T00:00:00+00:00",
+        "number": 7,
+        "state": "open",
+        "title": "Open issue 7",
+        "updated_at": "2021-08-02T09:14:00+00:00"
+      },
+      {
+        "comments": 0,
+        "created_at": "2017-02-11T00:00:00+00:00",
+        "number": 8,
+        "state": "open",
+        "title": "Open issue 8",
+        "updated_at": "2021-08-02T09:14:00+00:00"
+      },
+      {
+        "comments": 0,
+        "created_at": "2017-02-11T00:00:00+00:00",
+        "number": 9,
+        "state": "open",
+        "title": "Open issue 9",
+        "updated_at": "2021-08-02T09:14:00+00:00"
+      },
+      {
+        "comments": 0,
+        "created_at": "2017-02-11T00:00:00+00:00",
+        "number": 10,
+        "state": "open",
+        "title": "Open issue 10",
+        "updated_at": "2021-08-02T09:14:00+00:00"
+      },
+      {
+        "comments": 0,
+        "created_at": "2017-02-11T00:00:00+00:00",
+        "number": 11,
+        "state": "open",
+        "title": "Open issue 11",
+        "updated_at": "2021-08-02T09:14:00+00:00"
+      },
+      {
+        "comments": 0,
+        "created_at": "2017-02-11T00:00:00+00:00",
+        "number": 12,
+        "state": "open",
+        "title": "Open issue 12",
+        "updated_at": "2021-08-02T09:14:00+00:00"
+      },
+      {
+        "comments": 2,
+        "created_at": "2017-02-11T00:00:00+00:00",
+        "number": 13,
+        "state": "open",
+        "title": "Open issue 13",
+        "updated_at": "2021-08-02T09:14:00+00:00"
+      },
+      {
+        "comments": 2,
+        "created_at": "2017-02-11T00:00:00+00:00",
+        "number": 14,
+        "state": "open",
+        "title": "Open issue 14",
+        "updated_at": "2021-08-02T09:14:00+00:00"
+      }
+    ],
+    "readme": {
+      "content": "IyBhdGxhcy1tYXBwZXIKCioqVGhpcyBwcm9qZWN0IGlzIG5vIGxvbmdlciBtYWludGFpbmVkLioqIEkgd3JvdGUgaXQgZm9yIGEgdGhlc2lzIHRoYXQgZmluaXNoZWQgaW4gMjAxOSwgYW5kIEkgaGF2ZSBub3QgdXNlZCBpdCBzaW5jZS4gSXQgc3RpbGwgd29ya3Mgb24gUHl0aG9uIDIuNyBhbmQgZWFybHkgMy54OyBpdCB3aWxsIG5vdCB3b3JrIG9uIGEgbW9kZXJuIGludGVycHJldGVyIHdpdGhvdXQgY2hhbmdlcyB0byB0aGUgQyBleHRlbnNpb24uCgpJZiB5b3UgbmVlZCB0aGlzLCBmb3JrIGl0LiBJIHdpbGwgbm90IGJlIHJldmlld2luZyBwdWxsIHJlcXVlc3RzLgoKIyMgV2hhdCBpdCBkb2VzCgpQcm9qZWN0cyByYXN0ZXIgdGlsZXMgYmV0d2VlbiBjb29yZGluYXRlIHN5c3RlbXMgd2l0aG91dCBhIEdEQUwgZGVwZW5kZW5jeS4gVGhlIHByb2plY3Rpb24gbWF0aHMgaXMgaW4gYGF0bGFzL3Byb2plY3Rpb24ucHlgIGFuZCBpcyB0aGUgb25seSBwYXJ0IEkgd291bGQgc3RpbGwgZGVmZW5kLgoKIyMgSW5zdGFsbGF0aW9uCgogICAgcGlwIGluc3RhbGwgYXRsYXMtbWFwcGVyCgojIyBTdGF0dXMKCkFyY2hpdmVkLiBUZXN0cyBwYXNzIG9uIHRoZSBsYXN0IGNvbW1pdCB1bmRlciBQeXRob24gMi43Lgo=",
+      "encoding": "base64",
+      "name": "README.md"
+    },
+    "repo": {
+      "archived": true,
+      "created_at": "2013-06-01T10:00:00+00:00",
+      "default_branch": "main",
+      "description": "Tile-based map projection toolkit for scientific plotting.",
+      "fork": false,
+      "forks_count": 41,
+      "full_name": "necropsy-specimens/atlas-mapper",
+      "html_url": "https://github.com/necropsy-specimens/atlas-mapper",
+      "language": "Python",
+      "license": {
+        "name": "MIT License",
+        "spdx_id": "MIT"
+      },
+      "name": "atlas-mapper",
+      "open_issues_count": 14,
+      "owner": {
+        "login": "necropsy-specimens"
+      },
+      "pushed_at": "2019-03-12T14:22:09+00:00",
+      "size": 6400,
+      "stargazers_count": 312,
+      "topics": [
+        "gis",
+        "projection",
+        "raster"
+      ]
+    },
+    "tree": {
+      "sha": "5pec1men820af120a5ed001b08f4003342891cb6",
+      "tree": [
+        {
+          "mode": "100644",
+          "path": "README.md",
+          "size": 1024,
+          "type": "blob"
+        },
+        {
+          "mode": "100644",
+          "path": "LICENSE",
+          "size": 1024,
+          "type": "blob"
+        },
+        {
+          "mode": "100644",
+          "path": "setup.py",
+          "size": 1024,
+          "type": "blob"
+        },
+        {
+          "mode": "100644",
+          "path": "requirements.txt",
+          "size": 1024,
+          "type": "blob"
+        },
+        {
+          "mode": "100644",
+          "path": ".travis.yml",
+          "size": 1024,
+          "type": "blob"
+        },
+        {
+          "mode": "100644",
+          "path": "atlas/__init__.py",
+          "size": 1024,
+          "type": "blob"
+        },
+        {
+          "mode": "100644",
+          "path": "atlas/projection.py",
+          "size": 1024,
+          "type": "blob"
+        },
+        {
+          "mode": "100644",
+          "path": "atlas/tiles.py",
+          "size": 1024,
+          "type": "blob"
+        },
+        {
+          "mode": "100644",
+          "path": "atlas/raster.py",
+          "size": 1024,
+          "type": "blob"
+        },
+        {
+          "mode": "100644",
+          "path": "atlas/cli.py",
+          "size": 1024,
+          "type": "blob"
+        },
+        {
+          "mode": "100644",
+          "path": "docs/index.md",
+          "size": 1024,
+          "type": "blob"
+        },
+        {
+          "mode": "100644",
+          "path": "docs/projections.md",
+          "size": 1024,
+          "type": "blob"
+        },
+        {
+          "mode": "100644",
+          "path": "tests/__init__.py",
+          "size": 1024,
+          "type": "blob"
+        },
+        {
+          "mode": "100644",
+          "path": "tests/test_atlas.py",
+          "size": 1024,
+          "type": "blob"
+        },
+        {
+          "mode": "100644",
+          "path": "tests/test_projection.py",
+          "size": 1024,
+          "type": "blob"
+        },
+        {
+          "mode": "100644",
+          "path": "tests/test_tiles.py",
+          "size": 1024,
+          "type": "blob"
+        },
+        {
+          "mode": "100644",
+          "path": "examples/demo.py",
+          "size": 1024,
+          "type": "blob"
+        }
+      ],
+      "truncated": false
+    }
+  },
+  "tolerated": []
+}

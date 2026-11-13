@@ -1,0 +1,14 @@
+{
+  "enabled": true,
+  "name": "Regenerate Demo Graveyard",
+  "description": "Manually triggered. Re-materializes every curated exhibit from necropsy/graveyard/manifest.json into the SQLite cache at its pinned commit SHA, then verifies the offline path. Reports per entry whether it was served from cache, refetched, or failed, and exits non-zero if any manifest entry cannot be materialized. Exists because the demo graveyard is the demo path (product principle P4) and must be reproducible from a committed manifest rather than from whatever happens to be in a local database.",
+  "version": "1",
+  "when": {
+    "type": "userTriggered"
+  },
+  "then": {
+    "type": "runCommand",
+    "command": "python -m necropsy.cli init-db & python -m necropsy.cli seed-graveyard --manifest necropsy/graveyard/manifest.json --report & python -m necropsy.cli seed-graveyard --manifest necropsy/graveyard/manifest.json --offline --verify",
+    "timeout": 600
+  }
+}

@@ -1,0 +1,208 @@
+{
+  "table_version": "1",
+  "compiled_at": "2026-11-11",
+  "notes": "Offline deprecation table (design section 4.3, E13). Live registry lookups are forbidden: they would breach the 10-call budget and add a third egress destination. Every entry names a public source so a reader can check the claim (P2, P7). An unknown package counts as neither fresh nor deprecated and lowers dependency_data_confidence.",
+  "packages": [
+    {
+      "ecosystem": "python",
+      "name": "nose",
+      "status": "unmaintained",
+      "since": "2015",
+      "replacement": "pytest",
+      "source_url": "https://nose.readthedocs.io/en/latest/"
+    },
+    {
+      "ecosystem": "python",
+      "name": "distribute",
+      "status": "merged",
+      "since": "2013",
+      "replacement": "setuptools",
+      "source_url": "https://pypi.org/project/distribute/"
+    },
+    {
+      "ecosystem": "python",
+      "name": "pycrypto",
+      "status": "unmaintained",
+      "since": "2014",
+      "replacement": "pycryptodome",
+      "source_url": "https://pypi.org/project/pycrypto/"
+    },
+    {
+      "ecosystem": "python",
+      "name": "mysql-python",
+      "status": "unmaintained",
+      "since": "2014",
+      "replacement": "mysqlclient",
+      "source_url": "https://pypi.org/project/MySQL-python/"
+    },
+    {
+      "ecosystem": "python",
+      "name": "beautifulsoup",
+      "status": "superseded",
+      "since": "2012",
+      "replacement": "beautifulsoup4",
+      "source_url": "https://pypi.org/project/BeautifulSoup/"
+    },
+    {
+      "ecosystem": "python",
+      "name": "south",
+      "status": "superseded",
+      "since": "2014",
+      "replacement": "django built-in migrations",
+      "source_url": "https://pypi.org/project/South/"
+    },
+    {
+      "ecosystem": "python",
+      "name": "mock",
+      "status": "backport-superseded",
+      "since": "2012",
+      "replacement": "unittest.mock (standard library)",
+      "source_url": "https://docs.python.org/3/library/unittest.mock.html"
+    },
+    {
+      "ecosystem": "npm",
+      "name": "request",
+      "status": "deprecated",
+      "since": "2020-02",
+      "replacement": "node-fetch, got or undici",
+      "source_url": "https://github.com/request/request/issues/3142"
+    },
+    {
+      "ecosystem": "npm",
+      "name": "moment",
+      "status": "legacy-maintenance",
+      "since": "2020-09",
+      "replacement": "luxon, date-fns or Temporal",
+      "source_url": "https://momentjs.com/docs/#/-project-status/"
+    },
+    {
+      "ecosystem": "npm",
+      "name": "bower",
+      "status": "deprecated",
+      "since": "2017",
+      "replacement": "npm or yarn",
+      "source_url": "https://bower.io/blog/2017/how-to-migrate-away-from-bower/"
+    },
+    {
+      "ecosystem": "npm",
+      "name": "node-sass",
+      "status": "deprecated",
+      "since": "2022-10",
+      "replacement": "sass (dart-sass)",
+      "source_url": "https://github.com/sass/node-sass#node-sass"
+    },
+    {
+      "ecosystem": "npm",
+      "name": "tslint",
+      "status": "deprecated",
+      "since": "2019-02",
+      "replacement": "eslint with typescript-eslint",
+      "source_url": "https://github.com/palantir/tslint#tslint"
+    },
+    {
+      "ecosystem": "npm",
+      "name": "protractor",
+      "status": "end-of-life",
+      "since": "2023-08",
+      "replacement": "playwright or cypress",
+      "source_url": "https://github.com/angular/protractor/issues/5502"
+    },
+    {
+      "ecosystem": "npm",
+      "name": "istanbul",
+      "status": "superseded",
+      "since": "2017",
+      "replacement": "nyc",
+      "source_url": "https://github.com/istanbuljs/nyc"
+    },
+    {
+      "ecosystem": "npm",
+      "name": "babel-core",
+      "status": "renamed",
+      "since": "2018",
+      "replacement": "@babel/core",
+      "source_url": "https://babeljs.io/docs/v7-migration"
+    },
+    {
+      "ecosystem": "npm",
+      "name": "angular",
+      "status": "end-of-life",
+      "since": "2022-01",
+      "replacement": "@angular/core",
+      "source_url": "https://blog.angular.dev/discontinued-long-term-support-for-angularjs-cc066b82e65a"
+    },
+    {
+      "ecosystem": "ruby",
+      "name": "paperclip",
+      "status": "deprecated",
+      "since": "2018-08",
+      "replacement": "activestorage or shrine",
+      "source_url": "https://github.com/thoughtbot/paperclip#deprecated"
+    },
+    {
+      "ecosystem": "ruby",
+      "name": "therubyracer",
+      "status": "unmaintained",
+      "since": "2017",
+      "replacement": "mini_racer",
+      "source_url": "https://github.com/cowboyd/therubyracer"
+    },
+    {
+      "ecosystem": "php",
+      "name": "swiftmailer",
+      "status": "end-of-life",
+      "since": "2021-11",
+      "replacement": "symfony/mailer",
+      "source_url": "https://symfony.com/blog/the-end-of-swiftmailer"
+    },
+    {
+      "ecosystem": "go",
+      "name": "github.com/golang/dep",
+      "status": "deprecated",
+      "since": "2020",
+      "replacement": "go modules",
+      "source_url": "https://github.com/golang/dep#project-status"
+    }
+  ],
+  "runtimes": [
+    {
+      "ecosystem": "python",
+      "marker": "python2",
+      "label": "Python 2 (end of life 2020-01-01)",
+      "patterns": [
+        "programming language :: python :: 2",
+        "python_requires<3",
+        "python_requires>=2.7,<3"
+      ],
+      "source_url": "https://www.python.org/doc/sunset-python-2/"
+    },
+    {
+      "ecosystem": "python",
+      "marker": "django<2",
+      "label": "Django 1.x (extended support ended 2020-04)",
+      "patterns": ["django==1.", "django<2", "django>=1.", "django~=1."],
+      "source_url": "https://www.djangoproject.com/download/#supported-versions"
+    },
+    {
+      "ecosystem": "npm",
+      "marker": "node<=10",
+      "label": "Node.js 10 or older (end of life 2021-04)",
+      "patterns": ["\"node\": \"<=10", "\"node\": \"4.", "\"node\": \"6.", "\"node\": \"8.", "\"node\": \"10."],
+      "source_url": "https://endoflife.date/nodejs"
+    },
+    {
+      "ecosystem": "ruby",
+      "marker": "rails<5",
+      "label": "Rails 4.x or older (end of life 2017-2019)",
+      "patterns": ["gem 'rails', '4.", "gem \"rails\", \"4.", "gem 'rails', '~> 4", "gem 'rails', '3."],
+      "source_url": "https://endoflife.date/rails"
+    },
+    {
+      "ecosystem": "php",
+      "marker": "php<7.2",
+      "label": "PHP 7.1 or older (end of life 2019-12)",
+      "patterns": ["\"php\": \">=5.", "\"php\": \"^5.", "\"php\": \">=7.0", "\"php\": \"^7.0", "\"php\": \"^7.1"],
+      "source_url": "https://www.php.net/supported-versions.php"
+    }
+  ]
+}

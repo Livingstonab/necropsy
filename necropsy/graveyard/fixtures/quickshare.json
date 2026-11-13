@@ -1,0 +1,221 @@
+{
+  "_meta": {
+    "as_of": "2026-11-01T00:00:00+00:00",
+    "canonical_url": "github.com/necropsy-specimens/quickshare",
+    "note": "compiled specimen: this exhibit's payloads were written offline to demonstrate a failure mode, and are not a capture of a live repository",
+    "pinned_commit_sha": "5pec1men3074a92a1a3db79368ea3064d5b02f66",
+    "provenance": "compiled_specimen",
+    "slug": "quickshare"
+  },
+  "calls_used": 9,
+  "payloads": {
+    "contents": {
+      "composer.json": {
+        "content": "ewogICJuYW1lIjogInF1aWNrc2hhcmUvcXVpY2tzaGFyZSIsCiAgInJlcXVpcmUiOiB7CiAgICAicGhwIjogIj49Ny4xIiwKICAgICJndXp6bGVodHRwL2d1enpsZSI6ICJeNi4zIiwKICAgICJyYW1zZXkvdXVpZCI6ICJeMy44IgogIH0KfQo=",
+        "encoding": "base64",
+        "path": "composer.json"
+      }
+    },
+    "head_commit": {
+      "commit": {
+        "author": {
+          "date": "2020-09-02T03:17:44+00:00"
+        },
+        "committer": {
+          "date": "2020-09-02T03:17:44+00:00"
+        },
+        "message": "quick fix for upload size"
+      },
+      "sha": "5pec1men3074a92a1a3db79368ea3064d5b02f66"
+    },
+    "languages": {
+      "CSS": 29000,
+      "JavaScript": 72000,
+      "PHP": 214000
+    },
+    "latest_release": null,
+    "open_issues": [
+      {
+        "comments": 0,
+        "created_at": "2019-04-04T00:00:00+00:00",
+        "number": 1,
+        "state": "open",
+        "title": "Open issue 1",
+        "updated_at": "2022-01-08T15:00:00+00:00"
+      },
+      {
+        "comments": 0,
+        "created_at": "2019-04-04T00:00:00+00:00",
+        "number": 2,
+        "state": "open",
+        "title": "Open issue 2",
+        "updated_at": "2022-01-08T15:00:00+00:00"
+      },
+      {
+        "comments": 0,
+        "created_at": "2019-04-04T00:00:00+00:00",
+        "number": 3,
+        "state": "open",
+        "title": "Open issue 3",
+        "updated_at": "2022-01-08T15:00:00+00:00"
+      },
+      {
+        "comments": 0,
+        "created_at": "2019-04-04T00:00:00+00:00",
+        "number": 4,
+        "state": "open",
+        "title": "Open issue 4",
+        "updated_at": "2022-01-08T15:00:00+00:00"
+      },
+      {
+        "comments": 0,
+        "created_at": "2019-04-04T00:00:00+00:00",
+        "number": 5,
+        "state": "open",
+        "title": "Open issue 5",
+        "updated_at": "2022-01-08T15:00:00+00:00"
+      },
+      {
+        "comments": 0,
+        "created_at": "2019-04-04T00:00:00+00:00",
+        "number": 6,
+        "state": "open",
+        "title": "Open issue 6",
+        "updated_at": "2022-01-08T15:00:00+00:00"
+      },
+      {
+        "comments": 0,
+        "created_at": "2019-04-04T00:00:00+00:00",
+        "number": 7,
+        "state": "open",
+        "title": "Open issue 7",
+        "updated_at": "2022-01-08T15:00:00+00:00"
+      },
+      {
+        "comments": 0,
+        "created_at": "2019-04-04T00:00:00+00:00",
+        "number": 8,
+        "state": "open",
+        "title": "Open issue 8",
+        "updated_at": "2022-01-08T15:00:00+00:00"
+      },
+      {
+        "comments": 0,
+        "created_at": "2019-04-04T00:00:00+00:00",
+        "number": 9,
+        "state": "open",
+        "title": "Open issue 9",
+        "updated_at": "2022-01-08T15:00:00+00:00"
+      },
+      {
+        "comments": 2,
+        "created_at": "2019-04-04T00:00:00+00:00",
+        "number": 10,
+        "state": "open",
+        "title": "Open issue 10",
+        "updated_at": "2022-01-08T15:00:00+00:00"
+      },
+      {
+        "comments": 2,
+        "created_at": "2019-04-04T00:00:00+00:00",
+        "number": 11,
+        "state": "open",
+        "title": "Open issue 11",
+        "updated_at": "2022-01-08T15:00:00+00:00"
+      }
+    ],
+    "readme": {
+      "content": "IyBxdWlja3NoYXJlCgpVcGxvYWQgYSBmaWxlLCBnZXQgYSBsaW5rIHRoYXQgZGllcyBpbiAyNCBob3Vycy4gUnVucyBvbiBhbnkgUEhQIGhvc3Qgd2l0aCB3cml0ZSBhY2Nlc3MgdG8gYSBkaXJlY3RvcnkuCgpTZXQgYFNUT1JBR0VfUEFUSGAgaW4gYGNvbmZpZy5waHBgIGFuZCBwb2ludCBhIHZob3N0IGF0IGBpbmRleC5waHBgLgo=",
+      "encoding": "base64",
+      "name": "README.md"
+    },
+    "repo": {
+      "archived": false,
+      "created_at": "2018-11-30T21:00:00+00:00",
+      "default_branch": "main",
+      "description": "Drag-and-drop file sharing with expiring links.",
+      "fork": false,
+      "forks_count": 22,
+      "full_name": "necropsy-specimens/quickshare",
+      "html_url": "https://github.com/necropsy-specimens/quickshare",
+      "language": "PHP",
+      "license": null,
+      "name": "quickshare",
+      "open_issues_count": 11,
+      "owner": {
+        "login": "necropsy-specimens"
+      },
+      "pushed_at": "2020-09-02T03:17:44+00:00",
+      "size": 3900,
+      "stargazers_count": 58,
+      "topics": []
+    },
+    "tree": {
+      "sha": "5pec1men3074a92a1a3db79368ea3064d5b02f66",
+      "tree": [
+        {
+          "mode": "100644",
+          "path": "README.md",
+          "size": 1024,
+          "type": "blob"
+        },
+        {
+          "mode": "100644",
+          "path": "composer.json",
+          "size": 1024,
+          "type": "blob"
+        },
+        {
+          "mode": "100644",
+          "path": "index.php",
+          "size": 1024,
+          "type": "blob"
+        },
+        {
+          "mode": "100644",
+          "path": "upload.php",
+          "size": 1024,
+          "type": "blob"
+        },
+        {
+          "mode": "100644",
+          "path": "download.php",
+          "size": 1024,
+          "type": "blob"
+        },
+        {
+          "mode": "100644",
+          "path": "src/Storage.php",
+          "size": 1024,
+          "type": "blob"
+        },
+        {
+          "mode": "100644",
+          "path": "src/Link.php",
+          "size": 1024,
+          "type": "blob"
+        },
+        {
+          "mode": "100644",
+          "path": "src/Expiry.php",
+          "size": 1024,
+          "type": "blob"
+        },
+        {
+          "mode": "100644",
+          "path": "public/js/app.js",
+          "size": 1024,
+          "type": "blob"
+        },
+        {
+          "mode": "100644",
+          "path": "public/css/style.css",
+          "size": 1024,
+          "type": "blob"
+        }
+      ],
+      "truncated": false
+    }
+  },
+  "tolerated": []
+}

@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% block title %}NECROPSY — the graveyard{% endblock %}
+
+{% block content %}
+<section class="submit-panel" aria-labelledby="submit-heading">
+  <div class="pedestal-spot" aria-hidden="true"></div>
+  <h1 id="submit-heading" class="submit-heading">Paste a GitHub URL. We'll perform the autopsy.</h1>
+  <form id="analyze-form" class="submit-form" method="post" action="{{ url_for('api_analyze') }}">
+    <label class="visually-hidden" for="url">Public GitHub repository URL</label>
+    <input id="url" name="url" type="text" inputmode="url" autocomplete="off"
+           placeholder="github.com/owner/repository"
+           pattern=".*\S.*" required>
+    <button type="submit" class="begin-btn">Begin post-mortem</button>
+  </form>
+  <p id="status-line" class="status-line" role="status" aria-live="polite"></p>
+  <div id="status-stage" class="status-stage" aria-hidden="true">
+    <div class="sweep-spot"></div>
+    <div class="empty-pedestal"></div>
+  </div>
+</section>
+
+<section class="wall" aria-labelledby="wall-heading">
+  <div class="wall-head">
+    <h2 id="wall-heading">The graveyard wall</h2>
+    <form class="sort-control" method="get" action="{{ url_for('gallery') }}">
+      <label for="sort">Sort</label>
+      <select id="sort" name="sort" onchange="this.form.submit()">
+        <option value="curated"  {{ 'selected' if sort == 'curated' }}>Curated</option>
+        <option value="deadest"  {{ 'selected' if sort == 'deadest' }}>Deadest</option>
+        <option value="hardest"  {{ 'selected' if sort == 'hardest' }}>Hardest to revive</option>
+      </select>
+      <noscript><button type="submit">Sort</button></noscript>
+    </form>
+  </div>
+
+  {% if cards %}
+  <ul class="graveyard-grid">
+    {% for card in cards %}
+    <li class="exhibit-card band-{{ card.band_key }}" data-parallax style="--candle-delay: {{ loop.index0 * 0.37 }}s">
+      <a class="card-link" href="{{ url_for('exhibit', slug=card.slug) }}">
+        {% if card.is_curator_pick %}<span class="ribbon">Curator's pick</span>{% endif %}
+        <span class="candle" aria-hidden="true"><span class="flame" style="animation-delay: var(--candle-delay)"></span></span>
+        <span class="card-spot" aria-hidden="true"></span>
+        <span class="die" aria-label="Revival difficulty {{ card.score }} of 100">{{ card.score }}</span>
+        <span class="card-plaque">
+          <span class="card-repo">{{ card.owner }}/{{ card.name }}</span>
+          <span class="card-lang">{{ card.language }}</span>
+        </span>
+        <span class="card-band">{{ card.band_label }}</span>
+        <q class="card-epitaph">{{ card.epitaph }}</q>
+        {% if card.last_words %}
+        <span class="card-lastwords mono">“{{ card.last_words if card.last_words|length <= 52 else card.last_words[:51] ~ '…' }}”</span>
+        {% endif %}
+        <span class="card-death">died {{ '{:,}'.format(card.days) }} days ago</span>
+      </a>
+    </li>
+    {% endfor %}
+  </ul>
+  {% else %}
+  <div class="empty-state">
+    <p>The graveyard is empty.</p>
+    <p class="mono">Run <code>python -m necropsy.cli seed-graveyard</code> to fill the wall.</p>
+  </div>
+  {% endif %}
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script type="module" src="{{ url_for('static', filename='submit.js') }}"></script>
+<script type="module" src="{{ url_for('static', filename='gallery.js') }}"></script>
+{% endblock %}

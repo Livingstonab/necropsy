@@ -1,0 +1,394 @@
+{
+  "_meta": {
+    "as_of": "2026-11-01T00:00:00+00:00",
+    "canonical_url": "github.com/necropsy-specimens/solo-sync",
+    "note": "compiled specimen: this exhibit's payloads were written offline to demonstrate a failure mode, and are not a capture of a live repository",
+    "pinned_commit_sha": "5pec1mend052024b7c47853f160130a4ba63dc5f",
+    "provenance": "compiled_specimen",
+    "slug": "solo-sync"
+  },
+  "calls_used": 9,
+  "payloads": {
+    "contents": {
+      "go.mod": {
+        "content": "bW9kdWxlIGdpdGh1Yi5jb20vbmVjcm9wc3ktc3BlY2ltZW5zL3NvbG8tc3luYwoKZ28gMS4xNQoKcmVxdWlyZSAoCglnaXRodWIuY29tL2Zzbm90aWZ5L2Zzbm90aWZ5IHYxLjQuOQoJZ2l0aHViLmNvbS9zcGYxMy9jb2JyYSB2MS4xLjEKCWdvcGtnLmluL3lhbWwudjIgdjIuNC4wCikK",
+        "encoding": "base64",
+        "path": "go.mod"
+      }
+    },
+    "head_commit": {
+      "commit": {
+        "author": {
+          "date": "2021-01-19T22:05:41+00:00"
+        },
+        "committer": {
+          "date": "2021-01-19T22:05:41+00:00"
+        },
+        "message": "Fix race in watcher shutdown"
+      },
+      "sha": "5pec1mend052024b7c47853f160130a4ba63dc5f"
+    },
+    "languages": {
+      "Go": 298000,
+      "Shell": 6100
+    },
+    "latest_release": {
+      "published_at": "2020-11-02T00:00:00+00:00",
+      "tag_name": "v0.9.2"
+    },
+    "open_issues": [
+      {
+        "comments": 0,
+        "created_at": "2018-03-02T00:00:00+00:00",
+        "number": 1,
+        "state": "open",
+        "title": "Open issue 1",
+        "updated_at": "2023-06-18T07:42:00+00:00"
+      },
+      {
+        "comments": 0,
+        "created_at": "2018-03-02T00:00:00+00:00",
+        "number": 2,
+        "state": "open",
+        "title": "Open issue 2",
+        "updated_at": "2023-06-18T07:42:00+00:00"
+      },
+      {
+        "comments": 0,
+        "created_at": "2018-03-02T00:00:00+00:00",
+        "number": 3,
+        "state": "open",
+        "title": "Open issue 3",
+        "updated_at": "2023-06-18T07:42:00+00:00"
+      },
+      {
+        "comments": 0,
+        "created_at": "2018-03-02T00:00:00+00:00",
+        "number": 4,
+        "state": "open",
+        "title": "Open issue 4",
+        "updated_at": "2023-06-18T07:42:00+00:00"
+      },
+      {
+        "comments": 0,
+        "created_at": "2018-03-02T00:00:00+00:00",
+        "number": 5,
+        "state": "open",
+        "title": "Open issue 5",
+        "updated_at": "2023-06-18T07:42:00+00:00"
+      },
+      {
+        "comments": 0,
+        "created_at": "2018-03-02T00:00:00+00:00",
+        "number": 6,
+        "state": "open",
+        "title": "Open issue 6",
+        "updated_at": "2023-06-18T07:42:00+00:00"
+      },
+      {
+        "comments": 0,
+        "created_at": "2018-03-02T00:00:00+00:00",
+        "number": 7,
+        "state": "open",
+        "title": "Open issue 7",
+        "updated_at": "2023-06-18T07:42:00+00:00"
+      },
+      {
+        "comments": 0,
+        "created_at": "2018-03-02T00:00:00+00:00",
+        "number": 8,
+        "state": "open",
+        "title": "Open issue 8",
+        "updated_at": "2023-06-18T07:42:00+00:00"
+      },
+      {
+        "comments": 0,
+        "created_at": "2018-03-02T00:00:00+00:00",
+        "number": 9,
+        "state": "open",
+        "title": "Open issue 9",
+        "updated_at": "2023-06-18T07:42:00+00:00"
+      },
+      {
+        "comments": 0,
+        "created_at": "2018-03-02T00:00:00+00:00",
+        "number": 10,
+        "state": "open",
+        "title": "Open issue 10",
+        "updated_at": "2023-06-18T07:42:00+00:00"
+      },
+      {
+        "comments": 0,
+        "created_at": "2018-03-02T00:00:00+00:00",
+        "number": 11,
+        "state": "open",
+        "title": "Open issue 11",
+        "updated_at": "2023-06-18T07:42:00+00:00"
+      },
+      {
+        "comments": 0,
+        "created_at": "2018-03-02T00:00:00+00:00",
+        "number": 12,
+        "state": "open",
+        "title": "Open issue 12",
+        "updated_at": "2023-06-18T07:42:00+00:00"
+      },
+      {
+        "comments": 0,
+        "created_at": "2018-03-02T00:00:00+00:00",
+        "number": 13,
+        "state": "open",
+        "title": "Open issue 13",
+        "updated_at": "2023-06-18T07:42:00+00:00"
+      },
+      {
+        "comments": 0,
+        "created_at": "2018-03-02T00:00:00+00:00",
+        "number": 14,
+        "state": "open",
+        "title": "Open issue 14",
+        "updated_at": "2023-06-18T07:42:00+00:00"
+      },
+      {
+        "comments": 0,
+        "created_at": "2018-03-02T00:00:00+00:00",
+        "number": 15,
+        "state": "open",
+        "title": "Open issue 15",
+        "updated_at": "2023-06-18T07:42:00+00:00"
+      },
+      {
+        "comments": 0,
+        "created_at": "2018-03-02T00:00:00+00:00",
+        "number": 16,
+        "state": "open",
+        "title": "Open issue 16",
+        "updated_at": "2023-06-18T07:42:00+00:00"
+      },
+      {
+        "comments": 0,
+        "created_at": "2018-03-02T00:00:00+00:00",
+        "number": 17,
+        "state": "open",
+        "title": "Open issue 17",
+        "updated_at": "2023-06-18T07:42:00+00:00"
+      },
+      {
+        "comments": 0,
+        "created_at": "2018-03-02T00:00:00+00:00",
+        "number": 18,
+        "state": "open",
+        "title": "Open issue 18",
+        "updated_at": "2023-06-18T07:42:00+00:00"
+      },
+      {
+        "comments": 0,
+        "created_at": "2018-03-02T00:00:00+00:00",
+        "number": 19,
+        "state": "open",
+        "title": "Open issue 19",
+        "updated_at": "2023-06-18T07:42:00+00:00"
+      },
+      {
+        "comments": 0,
+        "created_at": "2018-03-02T00:00:00+00:00",
+        "number": 20,
+        "state": "open",
+        "title": "Open issue 20",
+        "updated_at": "2023-06-18T07:42:00+00:00"
+      },
+      {
+        "comments": 0,
+        "created_at": "2018-03-02T00:00:00+00:00",
+        "number": 21,
+        "state": "open",
+        "title": "Open issue 21",
+        "updated_at": "2023-06-18T07:42:00+00:00"
+      },
+      {
+        "comments": 0,
+        "created_at": "2018-03-02T00:00:00+00:00",
+        "number": 22,
+        "state": "open",
+        "title": "Open issue 22",
+        "updated_at": "2023-06-18T07:42:00+00:00"
+      },
+      {
+        "comments": 0,
+        "created_at": "2018-03-02T00:00:00+00:00",
+        "number": 23,
+        "state": "open",
+        "title": "Open issue 23",
+        "updated_at": "2023-06-18T07:42:00+00:00"
+      },
+      {
+        "comments": 0,
+        "created_at": "2018-03-02T00:00:00+00:00",
+        "number": 24,
+        "state": "open",
+        "title": "Open issue 24",
+        "updated_at": "2023-06-18T07:42:00+00:00"
+      },
+      {
+        "comments": 0,
+        "created_at": "2018-03-02T00:00:00+00:00",
+        "number": 25,
+        "state": "open",
+        "title": "Open issue 25",
+        "updated_at": "2023-06-18T07:42:00+00:00"
+      },
+      {
+        "comments": 0,
+        "created_at": "2018-03-02T00:00:00+00:00",
+        "number": 26,
+        "state": "open",
+        "title": "Open issue 26",
+        "updated_at": "2023-06-18T07:42:00+00:00"
+      },
+      {
+        "comments": 0,
+        "created_at": "2018-03-02T00:00:00+00:00",
+        "number": 27,
+        "state": "open",
+        "title": "Open issue 27",
+        "updated_at": "2023-06-18T07:42:00+00:00"
+      },
+      {
+        "comments": 0,
+        "created_at": "2018-03-02T00:00:00+00:00",
+        "number": 28,
+        "state": "open",
+        "title": "Open issue 28",
+        "updated_at": "2023-06-18T07:42:00+00:00"
+      },
+      {
+        "comments": 2,
+        "created_at": "2018-03-02T00:00:00+00:00",
+        "number": 29,
+        "state": "open",
+        "title": "Open issue 29",
+        "updated_at": "2023-06-18T07:42:00+00:00"
+      },
+      {
+        "comments": 2,
+        "created_at": "2018-03-02T00:00:00+00:00",
+        "number": 30,
+        "state": "open",
+        "title": "Open issue 30",
+        "updated_at": "2023-06-18T07:42:00+00:00"
+      }
+    ],
+    "readme": {
+      "content": "IyBzb2xvLXN5bmMKClR3by13YXkgZGlyZWN0b3J5IHN5bmNocm9uaXNhdGlvbiB3aXRoIGV4cGxpY2l0IGNvbmZsaWN0IHJlc29sdXRpb24uIE5vIGRhZW1vbiwgbm8gY2xvdWQgYWNjb3VudCwgbm8gdGVsZW1ldHJ5LgoKIyMgVXNhZ2UKCiAgICBzb2xvc3luYyAtLWxlZnQgLi9hIC0tcmlnaHQgLi9iIC0tb24tY29uZmxpY3QgbmV3ZXIKCiMjIERlc2lnbgoKVGhlIHdhdGNoZXIgYW5kIHRoZSBzeW5jIGVuZ2luZSBhcmUgc2VwYXJhdGUgcGFja2FnZXMgc28gdGhlIGVuZ2luZSBjYW4gYmUgdGVzdGVkIHdpdGhvdXQgdG91Y2hpbmcgdGhlIGZpbGVzeXN0ZW0uIENvbmZsaWN0IHN0cmF0ZWdpZXMgYXJlIHBsdWdnYWJsZTsgYG5ld2VyYCwgYGxhcmdlcmAgYW5kIGBhc2tgIHNoaXAgaW4gdGhlIGJveC4K",
+      "encoding": "base64",
+      "name": "README.md"
+    },
+    "repo": {
+      "archived": false,
+      "created_at": "2017-09-14T12:00:00+00:00",
+      "default_branch": "main",
+      "description": "Two-way file synchroniser with conflict resolution.",
+      "fork": false,
+      "forks_count": 96,
+      "full_name": "necropsy-specimens/solo-sync",
+      "html_url": "https://github.com/necropsy-specimens/solo-sync",
+      "language": "Go",
+      "license": {
+        "name": "Apache License 2.0",
+        "spdx_id": "Apache-2.0"
+      },
+      "name": "solo-sync",
+      "open_issues_count": 147,
+      "owner": {
+        "login": "necropsy-specimens"
+      },
+      "pushed_at": "2021-01-19T22:05:41+00:00",
+      "size": 2100,
+      "stargazers_count": 1840,
+      "topics": [
+        "sync",
+        "cli",
+        "golang"
+      ]
+    },
+    "tree": {
+      "sha": "5pec1mend052024b7c47853f160130a4ba63dc5f",
+      "tree": [
+        {
+          "mode": "100644",
+          "path": "README.md",
+          "size": 1024,
+          "type": "blob"
+        },
+        {
+          "mode": "100644",
+          "path": "LICENSE",
+          "size": 1024,
+          "type": "blob"
+        },
+        {
+          "mode": "100644",
+          "path": "go.mod",
+          "size": 1024,
+          "type": "blob"
+        },
+        {
+          "mode": "100644",
+          "path": "go.sum",
+          "size": 1024,
+          "type": "blob"
+        },
+        {
+          "mode": "100644",
+          "path": ".github/workflows/ci.yml",
+          "size": 1024,
+          "type": "blob"
+        },
+        {
+          "mode": "100644",
+          "path": "cmd/solosync/main.go",
+          "size": 1024,
+          "type": "blob"
+        },
+        {
+          "mode": "100644",
+          "path": "internal/watcher/watcher.go",
+          "size": 1024,
+          "type": "blob"
+        },
+        {
+          "mode": "100644",
+          "path": "internal/watcher/watcher_test.go",
+          "size": 1024,
+          "type": "blob"
+        },
+        {
+          "mode": "100644",
+          "path": "internal/sync/engine.go",
+          "size": 1024,
+          "type": "blob"
+        },
+        {
+          "mode": "100644",
+          "path": "internal/sync/engine_test.go",
+          "size": 1024,
+          "type": "blob"
+        },
+        {
+          "mode": "100644",
+          "path": "internal/sync/conflict.go",
+          "size": 1024,
+          "type": "blob"
+        },
+        {
+          "mode": "100644",
+          "path": "internal/sync/conflict_test.go",
+          "size": 1024,
+          "type": "blob"
+        }
+      ],
+      "truncated": false
+    }
+  },
+  "tolerated": []
+}

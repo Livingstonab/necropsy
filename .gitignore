@@ -1,0 +1,20 @@
+# NECROPSY
+# NOTE: .kiro/ is deliberately NOT ignored. It is submission evidence (E15).
+
+.env
+*.db
+*.db-wal
+*.db-shm
+
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+venv/
+*.egg-info/
+
+# Hypothesis keeps a local example DB; committed counterexamples live in
+# tests/counterexamples.py instead.
+.hypothesis/

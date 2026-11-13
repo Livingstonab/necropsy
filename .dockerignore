@@ -1,0 +1,18 @@
+# Keep the image lean and deterministic: ship source and fixtures, not local state.
+.git
+.gitignore
+.venv
+venv
+__pycache__
+*.pyc
+.pytest_cache
+.mypy_cache
+.ruff_cache
+.hypothesis
+tests
+scripts
+*.db
+*.db-wal
+*.db-shm
+.env
+.kiro

@@ -1,0 +1,119 @@
+{
+  "_meta": {
+    "as_of": "2026-11-01T00:00:00+00:00",
+    "canonical_url": "github.com/necropsy-specimens/half-built-parser",
+    "note": "compiled specimen: this exhibit's payloads were written offline to demonstrate a failure mode, and are not a capture of a live repository",
+    "pinned_commit_sha": "5pec1men4fd22d06a8e052ca07f271fda8fec556",
+    "provenance": "compiled_specimen",
+    "slug": "half-built-parser"
+  },
+  "calls_used": 9,
+  "payloads": {
+    "contents": {
+      "Cargo.toml": {
+        "content": "W3BhY2thZ2VdCm5hbWUgPSAiaGFsZi1idWlsdC1wYXJzZXIiCnZlcnNpb24gPSAiMC4xLjAiCmVkaXRpb24gPSAiMjAyMSIKCltkZXBlbmRlbmNpZXNdCmFueWhvdyA9ICIxLjAiCmNsYXAgPSAiMy4xIgo=",
+        "encoding": "base64",
+        "path": "Cargo.toml"
+      }
+    },
+    "head_commit": {
+      "commit": {
+        "author": {
+          "date": "2024-09-15T16:11:00+00:00"
+        },
+        "committer": {
+          "date": "2024-09-15T16:11:00+00:00"
+        },
+        "message": "WIP: start lexer rewrite"
+      },
+      "sha": "5pec1men4fd22d06a8e052ca07f271fda8fec556"
+    },
+    "languages": {
+      "Rust": 41200
+    },
+    "latest_release": null,
+    "open_issues": [],
+    "readme": {
+      "content": "IyBoYWxmLWJ1aWx0LXBhcnNlcgoKKipXb3JrIGluIHByb2dyZXNzLiBOb3QgcHJvZHVjdGlvbiByZWFkeS4qKiBJIGFtIGxlYXJuaW5nIFJ1c3QgYnkgd3JpdGluZyBhbiBpbmNyZW1lbnRhbCBwYXJzZXIgZm9yIGEgc21hbGwgY29uZmlndXJhdGlvbiBsYW5ndWFnZS4gVGhlIGxleGVyIHdvcmtzLiBUaGUgcGFyc2VyIGhhbmRsZXMgbWFwcyBhbmQgc2NhbGFycyBhbmQgZmFsbHMgb3ZlciBvbiBuZXN0ZWQgbGlzdHMuCgpEbyBub3QgZGVwZW5kIG9uIHRoaXMuCg==",
+      "encoding": "base64",
+      "name": "README.md"
+    },
+    "repo": {
+      "archived": false,
+      "created_at": "2024-07-28T19:30:00+00:00",
+      "default_branch": "main",
+      "description": "An incremental parser for a configuration language. Work in progress.",
+      "fork": false,
+      "forks_count": 0,
+      "full_name": "necropsy-specimens/half-built-parser",
+      "html_url": "https://github.com/necropsy-specimens/half-built-parser",
+      "language": "Rust",
+      "license": {
+        "name": "MIT License",
+        "spdx_id": "MIT"
+      },
+      "name": "half-built-parser",
+      "open_issues_count": 0,
+      "owner": {
+        "login": "necropsy-specimens"
+      },
+      "pushed_at": "2024-09-15T16:11:00+00:00",
+      "size": 180,
+      "stargazers_count": 7,
+      "topics": [
+        "rust",
+        "parser",
+        "wip"
+      ]
+    },
+    "tree": {
+      "sha": "5pec1men4fd22d06a8e052ca07f271fda8fec556",
+      "tree": [
+        {
+          "mode": "100644",
+          "path": "README.md",
+          "size": 1024,
+          "type": "blob"
+        },
+        {
+          "mode": "100644",
+          "path": "LICENSE",
+          "size": 1024,
+          "type": "blob"
+        },
+        {
+          "mode": "100644",
+          "path": "Cargo.toml",
+          "size": 1024,
+          "type": "blob"
+        },
+        {
+          "mode": "100644",
+          "path": "Cargo.lock",
+          "size": 1024,
+          "type": "blob"
+        },
+        {
+          "mode": "100644",
+          "path": "src/main.rs",
+          "size": 1024,
+          "type": "blob"
+        },
+        {
+          "mode": "100644",
+          "path": "src/lexer.rs",
+          "size": 1024,
+          "type": "blob"
+        },
+        {
+          "mode": "100644",
+          "path": "src/parser.rs",
+          "size": 1024,
+          "type": "blob"
+        }
+      ],
+      "truncated": false
+    }
+  },
+  "tolerated": []
+}

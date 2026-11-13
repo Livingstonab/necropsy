@@ -1,0 +1,34 @@
+# Render blueprint for NECROPSY (https://render.com).
+#
+# One Docker web service plus a small persistent disk for the SQLite cache. The
+# graveyard is baked into the image, so the site is live on first deploy with no
+# configuration. Add GITHUB_TOKEN / LLM_API_KEY in the dashboard to enable faster
+# live analysis and model-written narratives; neither is required.
+#
+# Deploy: push this repo to GitHub, then on Render choose "New +" -> "Blueprint"
+# and point it at the repo. Render reads this file.
+
+services:
+  - type: web
+    name: necropsy
+    runtime: docker
+    plan: free
+    healthCheckPath: /api/health
+    envVars:
+      - key: DATABASE_PATH
+        value: /data/necropsy.db
+      - key: PORT
+        value: "8000"
+      # Optional. Set these in the Render dashboard (never commit them).
+      - key: GITHUB_TOKEN
+        sync: false
+      - key: LLM_PROVIDER
+        sync: false
+      - key: LLM_API_KEY
+        sync: false
+      - key: LLM_MODEL
+        sync: false
+    disk:
+      name: necropsy-data
+      mountPath: /data
+      sizeGB: 1

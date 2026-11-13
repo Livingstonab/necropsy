@@ -1,0 +1,295 @@
+{% extends "base.html" %}
+{% set f = payload.what_was_built %}
+{% set tod = payload.time_of_death %}
+{% set cause = payload.cause_of_death %}
+{% set card = payload.scorecard %}
+{% set epitaph = payload.epitaph %}
+{% block title %}{{ payload.repo.owner }}/{{ payload.repo.name }} — NECROPSY{% endblock %}
+
+{% block content %}
+<button id="skip-reveal" class="skip-reveal" type="button" aria-label="Skip the reveal animation">skip ⏭</button>
+
+<article class="plaque reveal" data-reveal>
+  <a class="back-link" href="{{ url_for('gallery') }}">← back to the wall</a>
+
+  <!-- the pedestal spotlight + dust, choreographed by reveal.js -->
+  <div class="pedestal" aria-hidden="true">
+    <div class="spotlight-cone"></div>
+    <div class="dust"><span></span><span></span><span></span></div>
+  </div>
+
+  <header class="plaque-head band-{{ card.band.key }}">
+    <p class="plaque-repo">
+      <a href="{{ payload.repo.html_url }}" rel="noopener noreferrer" target="_blank">
+        {{ payload.repo.owner }}/{{ payload.repo.name }}
+      </a>
+      {% if payload.repo.is_archived %}<span class="tag">archived</span>{% endif %}
+      {% if payload.repo.is_fork %}<span class="tag">fork</span>{% endif %}
+    </p>
+    <p class="died-on carve" data-carve="Died {{ tod.last_commit_at[:10] }} · {{ '{:,}'.format(tod.days_since_last_commit) }} days before capture">
+      Died {{ tod.last_commit_at[:10] }} · {{ '{:,}'.format(tod.days_since_last_commit) }} days before capture
+    </p>
+    <h1 class="epitaph" data-type="{{ epitaph.text }}">{{ epitaph.text }}</h1>
+    <p class="epitaph-source mono">
+      epitaph: {{ epitaph.source }}{% if epitaph.source != 'llm' %} · the curator improvised this one{% endif %}
+    </p>
+  </header>
+
+  {% if curator_note %}
+  <p class="curator-note">{{ curator_note }}</p>
+  {% endif %}
+
+  <!-- vital signs: languages + health strip (the "how strong is this repo" view) -->
+  <section class="section vitals" data-stagger>
+    <h2>Vital signs</h2>
+    <p class="summary">{{ f.summary }}</p>
+
+    <div class="lang-bar" role="img" aria-label="Language composition by bytes">
+      {% for slice in vitals.languages %}
+      <span class="lang-seg" style="--w: {{ slice.percent }}%"
+            title="{{ slice.name }}: {{ slice.percent }}% ({{ '{:,}'.format(slice.bytes) }} bytes)">
+        <span class="lang-seg-label">{{ slice.name }}</span>
+      </span>
+      {% endfor %}
+    </div>
+    <ul class="lang-legend mono">
+      {% for slice in vitals.languages[:6] %}
+      <li><span class="legend-swatch swatch-{{ loop.index0 }}"></span>{{ slice.name }} {{ slice.percent }}%</li>
+      {% endfor %}
+    </ul>
+
+    <ul class="facts mono">
+      <li>~{{ '{:,}'.format(vitals.loc_estimate) }} lines <em>(estimate, {{ vitals.loc_confidence }} confidence)</em></li>
+      <li>{{ f.file_count }} files</li>
+      <li>{{ vitals.language_count }} language(s)</li>
+    </ul>
+
+    <div class="health-strip">
+      {% for sign in vitals.signs %}
+      <div class="vsign {{ 'ok' if sign.present else 'absent' }}" title="{{ sign.detail }}">
+        <span class="vsign-mark" aria-hidden="true">{{ '●' if sign.present else '○' }}</span>
+        <span class="vsign-label">{{ sign.label }}</span>
+        <span class="vsign-detail mono">{{ sign.detail }}</span>
+      </div>
+      {% endfor %}
+    </div>
+    <p class="strength-line mono">{{ vitals.strength_line }}.</p>
+  </section>
+
+  <!-- cause of death with receipts -->
+  <section class="section cause" data-stagger>
+    <h2>Cause of death <span class="src mono">[{{ cause.source }}]</span></h2>
+    <p class="cause-headline">{{ cause.headline }}</p>
+    <p class="cause-narrative">{{ cause.narrative }}</p>
+
+    {% if cause.evidence %}
+    <ul class="chips" data-chips>
+      {% for ev in cause.evidence %}
+      <li class="chip mono" data-evidence-id="{{ ev.fact_key }}" tabindex="0"
+          role="button" aria-expanded="false"
+          aria-label="Evidence: {{ ev.fact_key }} equals {{ ev.fact_value }}. {{ ev.claim }}. Activate to see the raw data.">
+        <span class="chip-key">{{ ev.fact_key }}</span>
+        <span class="chip-val">{{ ev.fact_value }}</span>
+        <span class="chip-claim">{{ ev.claim }}</span>
+      </li>
+      {% endfor %}
+    </ul>
+
+    <!-- receipt cards: the raw GitHub JSON behind each chip (escaped, never |safe) -->
+    {% for key, receipt in receipts.items() %}
+    <div class="receipt" id="receipt-{{ key }}" hidden>
+      <p class="receipt-head mono">Raw evidence — {{ key }} <span class="receipt-src">(from the {{ receipt.section }} payload)</span></p>
+      <pre class="receipt-json mono">{{ receipt.json }}</pre>
+    </div>
+    {% endfor %}
+    <p class="receipt-hint mono">Click any tag to see the raw GitHub data behind it. No analysis is taken on trust.</p>
+    {% endif %}
+  </section>
+
+  <!-- ambition vs reality -->
+  <section class="section ambition" data-stagger>
+    <h2>Ambition vs reality</h2>
+    <div class="avr-grid">
+      <div class="avr-col promised">
+        <p class="avr-label carve">Promised</p>
+        {% if vitals.promised %}
+        <p class="avr-text">“{{ vitals.promised }}”</p>
+        {% else %}
+        <p class="avr-text muted">No README promise to quote.</p>
+        {% endif %}
+      </div>
+      <div class="avr-divider" aria-hidden="true"></div>
+      <div class="avr-col delivered">
+        <p class="avr-label carve">Delivered</p>
+        <p class="avr-text mono">{{ vitals.delivered }}</p>
+      </div>
+    </div>
+    <p class="avr-gap muted">The gap between the two is where most side projects die.</p>
+  </section>
+
+  <!-- scorecard -->
+  <section class="section scorecard" data-stagger>
+    <h2>Revival difficulty
+      <span class="total-die band-{{ card.band.key }}">{{ card.score }}</span>
+      <span class="band-label">{{ card.band.label }}</span>
+    </h2>
+    <table class="factor-table">
+      <thead>
+        <tr><th>Factor</th><th>Contribution</th><th class="num">pts</th><th>Confidence</th></tr>
+      </thead>
+      <tbody>
+        {% for factor in card.factors %}
+        <tr class="factor-row" tabindex="0"
+            aria-label="{{ factor.label }}: {{ '%.1f'|format(factor.contribution) }} of {{ factor.weight }} points. {{ factor.rationale }}">
+          <td class="factor-name">{{ factor.label }}</td>
+          <td class="factor-bar"><span class="bar-fill" style="--fill: {{ (factor.normalized * 100) }}%"></span></td>
+          <td class="num mono">{{ '%.1f'|format(factor.contribution) }} / {{ factor.weight }}</td>
+          <td class="conf mono conf-{{ factor.confidence }}">{{ factor.confidence }}</td>
+          <td class="factor-inputs mono">{{ factor.rationale }}<span class="raw">{{ factor.raw_inputs }}</span></td>
+        </tr>
+        {% endfor %}
+      </tbody>
+      <tfoot>
+        <tr>
+          <td>Sum of contributions</td><td></td>
+          <td class="num mono">{{ '%.1f'|format(card.total_unrounded) }} / 100</td>
+          <td colspan="2" class="mono">rounds to {{ card.score }}</td>
+        </tr>
+      </tfoot>
+    </table>
+    {% if card.data_gaps %}
+    <p class="data-gaps mono">data gaps (neutral defaults used): {{ card.data_gaps|join(', ') }}</p>
+    {% endif %}
+    <p class="checksum mono">weights {{ card.weights_checksum }}</p>
+  </section>
+
+  <!-- what's missing -->
+  <section class="section" data-stagger>
+    <h2>What's missing</h2>
+    <ul class="missing-list">
+      {% for item in payload.whats_missing['items'] %}
+      <li class="missing {{ 'present' if item.present else 'absent' }}">
+        <span class="mark" aria-hidden="true">{{ '✓' if item.present else '✗' }}</span>
+        <span class="missing-label">{{ item.label }}</span>
+        <span class="missing-detail mono">{{ item.detail }}</span>
+      </li>
+      {% endfor %}
+    </ul>
+  </section>
+
+  <!-- last words -->
+  {% if tod.last_commit_message %}
+  <section class="section last-words-section" data-stagger>
+    <h2>Last words</h2>
+    <blockquote class="last-words mono"
+      title="{{ tod.last_commit_message }}">
+      “{{ tod.last_commit_message if tod.last_commit_message|length <= 80 else tod.last_commit_message[:79] ~ '…' }}”
+    </blockquote>
+  </section>
+  {% endif %}
+
+  <!-- the letter it never sent (the emotional pause; fades in slower) -->
+  {% if payload.final_letter and payload.final_letter.text and payload.final_letter.source != 'unavailable' %}
+  <section class="section letter-section" data-letter>
+    <div class="letter-card">
+      <p class="letter-header">✉ The letter it never sent</p>
+      <p class="letter-body">{{ payload.final_letter.text }}</p>
+      {% if payload.final_letter.source != 'llm' %}
+      <p class="letter-note mono">The curator assembled this one from evidence.</p>
+      {% endif %}
+    </div>
+  </section>
+  {% endif %}
+
+  <!-- the tombstone: generated epitaph + your inscription -->
+  <section class="section tombstone-section" data-stagger>
+    <div class="tombstone" data-slug="{{ exhibit.slug }}">
+      <p class="tomb-epitaph">{{ epitaph.text }}</p>
+      <div class="tomb-inscription-wrap">
+        <p class="tomb-inscription {{ 'inscribed' if inscription else 'empty' }}"
+           id="tomb-inscription">{{ inscription or '' }}</p>
+        <span class="tomb-signature {{ 'hidden' if not inscription }}" id="tomb-signature">— you</span>
+      </div>
+      <div class="inscribe-row {{ 'hidden' if inscription }}" id="inscribe-row">
+        <input id="inscribe-input" class="inscribe-input" type="text" maxlength="100"
+               placeholder="Inscribe a line for this repo…"
+               value="" aria-label="Inscribe a line for this repository">
+        <button id="seal-btn" class="seal-btn" type="button" disabled
+                aria-label="Press the wax seal to inscribe">
+          <span class="wax" aria-hidden="true"></span>
+        </button>
+      </div>
+      {% if inscription %}
+      <button id="edit-inscription" class="edit-inscription" type="button" aria-label="Edit your inscription">✎ edit</button>
+      {% endif %}
+    </div>
+  </section>
+
+  <!-- resurrection plan -->
+  <section class="section plan" data-stagger>
+    <h2>Resurrection plan <span class="src mono">[{{ payload.resurrection_plan_source }}]</span></h2>
+    <ol class="plan-list">
+      {% for step in payload.resurrection_plan %}
+      <li class="plan-step">
+        <div class="plan-head">
+          <span class="plan-order">{{ step.order }}</span>
+          <h3 class="plan-title">{{ step.title }}</h3>
+          <span class="effort mono">{{ step.estimated_effort }}</span>
+        </div>
+        <p class="plan-detail">{{ step.detail }}</p>
+        <div class="plan-foot">
+          <span class="addresses mono">addresses: {{ step.addresses_factor }}</span>
+          <button class="copy-spec mono" type="button"
+                  data-spec="## Task: {{ step.title }}&#10;**Addresses factor:** {{ step.addresses_factor }}&#10;**Effort:** {{ step.estimated_effort }}&#10;**Detail:** {{ step.detail }}">
+            Copy spec
+          </button>
+        </div>
+      </li>
+      {% endfor %}
+    </ol>
+
+    <button class="resurrect-btn" type="button"
+            data-full-spec="{{ full_spec }}"
+            data-kiro-url="{{ url_for('kiro_setup') }}">
+      Resurrect in Kiro →
+    </button>
+  </section>
+
+  <!-- share -->
+  <section class="section share-section" data-stagger>
+    <button id="share-btn" class="share-btn" type="button"
+            data-repo="{{ payload.repo.owner }}/{{ payload.repo.name }}"
+            data-epitaph="{{ epitaph.text }}">
+      Share this tombstone
+    </button>
+  </section>
+
+  <!-- proof of real data (the offline rule): cached-from-GitHub tag -->
+  <div class="cached-tag mono">
+    {% if cached_tag.is_specimen %}
+    <span class="cached-dot" aria-hidden="true"></span>
+    Compiled specimen · captured {{ cached_tag.fetched_at }} · commit {{ cached_tag.short_sha }}
+    {% else %}
+    <span class="cached-dot" aria-hidden="true"></span>
+    Cached from GitHub — {{ cached_tag.fetched_at }} ·
+    <a href="{{ cached_tag.commit_url }}" rel="noopener noreferrer" target="_blank">commit {{ cached_tag.short_sha }}</a>
+    {% endif %}
+  </div>
+
+  <footer class="provenance mono">
+    as of {{ payload.as_of[:19] }} ·
+    {{ payload.provenance.github_calls_used }} GitHub call(s) ·
+    narrative: {{ payload.provenance.llm_status }} ·
+    schema v{{ payload.analysis_schema_version }} ·
+    {{ payload.provenance.deprecation_table_version }}
+  </footer>
+</article>
+
+<div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+{% endblock %}
+
+{% block scripts %}
+<script type="module" src="{{ url_for('static', filename='reveal.js') }}"></script>
+<script type="module" src="{{ url_for('static', filename='receipts.js') }}"></script>
+<script type="module" src="{{ url_for('static', filename='tombstone.js') }}"></script>
+{% endblock %}

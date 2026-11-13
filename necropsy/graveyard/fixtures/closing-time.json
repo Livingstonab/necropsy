@@ -1,0 +1,352 @@
+{
+  "_meta": {
+    "as_of": "2026-11-01T00:00:00+00:00",
+    "canonical_url": "github.com/necropsy-specimens/closing-time",
+    "note": "compiled specimen: this exhibit's payloads were written offline to demonstrate a failure mode, and are not a capture of a live repository",
+    "pinned_commit_sha": "5pec1men30e97584dbaa57d61d588021ba0a4f10",
+    "provenance": "compiled_specimen",
+    "slug": "closing-time"
+  },
+  "calls_used": 9,
+  "payloads": {
+    "contents": {
+      "pyproject.toml": {
+        "content": "W3Byb2plY3RdCm5hbWUgPSAiY2xvc2luZy10aW1lIgp2ZXJzaW9uID0gIjIuMC4wIgpyZXF1aXJlcy1weXRob24gPSAiPj0zLjkiCmRlcGVuZGVuY2llcyA9IFsKICAiY2xpY2s9PTguMS43IiwKICAiamluamEyPT0zLjEuNCIsCiAgInRvbWxraXQ9PTAuMTMuMiIsCl0K",
+        "encoding": "base64",
+        "path": "pyproject.toml"
+      }
+    },
+    "head_commit": {
+      "commit": {
+        "author": {
+          "date": "2026-01-09T11:02:00+00:00"
+        },
+        "committer": {
+          "date": "2026-01-09T11:02:00+00:00"
+        },
+        "message": "Release 2.0.0: freeze the dependency set"
+      },
+      "sha": "5pec1men30e97584dbaa57d61d588021ba0a4f10"
+    },
+    "languages": {
+      "Jinja": 6200,
+      "Python": 181400
+    },
+    "latest_release": {
+      "published_at": "2026-01-09T12:00:00+00:00",
+      "tag_name": "2.0.0"
+    },
+    "open_issues": [
+      {
+        "comments": 2,
+        "created_at": "2025-10-10T00:00:00+00:00",
+        "number": 1,
+        "state": "open",
+        "title": "Open issue 1",
+        "updated_at": "2026-08-01T18:00:00+00:00"
+      },
+      {
+        "comments": 2,
+        "created_at": "2025-10-10T00:00:00+00:00",
+        "number": 2,
+        "state": "open",
+        "title": "Open issue 2",
+        "updated_at": "2026-08-01T18:00:00+00:00"
+      },
+      {
+        "comments": 2,
+        "created_at": "2025-10-10T00:00:00+00:00",
+        "number": 3,
+        "state": "open",
+        "title": "Open issue 3",
+        "updated_at": "2026-08-01T18:00:00+00:00"
+      }
+    ],
+    "readme": {
+      "content": "IyBjbG9zaW5nLXRpbWUKCkEgY29tbWFuZC1saW5lIHRvb2wgZm9yIGNsb3NpbmcgYSBwcm9qZWN0IGRvd24gcHJvcGVybHkuIEl0IGZyZWV6ZXMgeW91ciBkZXBlbmRlbmN5IHNldCB0byBleGFjdCB2ZXJzaW9ucywgd3JpdGVzIGEgZmluYWwgY2hhbmdlbG9nIGVudHJ5IGZyb20geW91ciBjb21taXQgaGlzdG9yeSwgYW5kIGdlbmVyYXRlcyBhbiBBUkNISVZFRCBub3RpY2UgZm9yIHRoZSBSRUFETUUgc28gdGhlIG5leHQgcmVhZGVyIGtub3dzIHdoZXJlIHRoZXkgc3RhbmQuCgojIyBJbnN0YWxsYXRpb24KCiAgICBwaXB4IGluc3RhbGwgY2xvc2luZy10aW1lCgojIyBVc2FnZQoKICAgIGNsb3NpbmctdGltZSBmcmVlemUgICAgICAgICAgIyBwaW4gZXZlcnkgZGVwZW5kZW5jeSB0byBhbiBleGFjdCB2ZXJzaW9uCiAgICBjbG9zaW5nLXRpbWUgY2hhbmdlbG9nICAgICAgICMgd3JpdGUgdGhlIGZpbmFsIENIQU5HRUxPRyBlbnRyeQogICAgY2xvc2luZy10aW1lIG5vdGljZSAtLWFwcGx5ICAjIGFkZCB0aGUgQVJDSElWRUQgYmFubmVyIHRvIFJFQURNRS5tZAoKRWFjaCBzdWJjb21tYW5kIHByaW50cyB3aGF0IGl0IHdvdWxkIGRvIGFuZCBhc2tzIGJlZm9yZSB3cml0aW5nLiBQYXNzIGAtLXllc2AgaW4gQ0kuCgojIyBXaHkgYXJjaGl2ZSBkZWxpYmVyYXRlbHkKCkFuIHVubWFpbnRhaW5lZCBwcm9qZWN0IHdpdGggZmxvYXRpbmcgdmVyc2lvbiBzcGVjaWZpZXJzIHN0b3BzIGJ1aWxkaW5nIHNpbGVudGx5LCBtb250aHMgYWZ0ZXIgYW55b25lIGlzIHdhdGNoaW5nLiBQaW5uaW5nIG9uIHRoZSB3YXkgb3V0IG1lYW5zIHRoZSBsYXN0IGtub3duLWdvb2Qgc3RhdGUgc3RheXMgYnVpbGRhYmxlLiBUaGUgcmVhc29uaW5nIGlzIHdyaXR0ZW4gdXAgaW4gYGRvY3Mvd2h5LWFyY2hpdmUubWRgLgoKIyMgU2NvcGUKClRoaXMgcHJvamVjdCBpcyBmaW5pc2hlZC4gSXQgZG9lcyB0aGUgdGhyZWUgdGhpbmdzIGFib3ZlIGFuZCB3aWxsIG5vdCBncm93IGEgZm91cnRoLiBCdWcgcmVwb3J0cyBhcmUgcmVhZCBhbmQgZml4ZWQ7IGZlYXR1cmUgcmVxdWVzdHMgYXJlIGNsb3NlZCB3aXRoIHRoYW5rcy4gVGhlIGFyY2hpdmUgZm9ybWF0IGlzIHNwZWNpZmllZCBpbiBgZG9jcy9hcmNoaXZlLWZvcm1hdC5tZGAgYW5kIGlzIGZyb3plbiBhdCB2ZXJzaW9uIDIuCgojIyBUZXN0aW5nCgogICAgcG9ldHJ5IGluc3RhbGwgJiYgcG9ldHJ5IHJ1biBweXRlc3QKCkNJIHJ1bnMgdGhlIHN1aXRlIG9uIGV2ZXJ5IHB1c2ggYWdhaW5zdCBQeXRob24gMy45IHRocm91Z2ggMy4xMy4gVGhlIGludGVncmF0aW9uIHRlc3RzIGFyY2hpdmUgYSB0aHJvd2F3YXkgcmVwb3NpdG9yeSBlbmQgdG8gZW5kLgoKIyMgTGljZW5jZQoKQlNEIDMtQ2xhdXNlLiBTZWUgTElDRU5TRS4K",
+      "encoding": "base64",
+      "name": "README.md"
+    },
+    "repo": {
+      "archived": false,
+      "created_at": "2023-08-19T07:00:00+00:00",
+      "default_branch": "main",
+      "description": "CLI that archives a project: freezes dependencies, writes a final changelog.",
+      "fork": false,
+      "forks_count": 31,
+      "full_name": "necropsy-specimens/closing-time",
+      "html_url": "https://github.com/necropsy-specimens/closing-time",
+      "language": "Python",
+      "license": {
+        "name": "BSD 3-Clause \"New\" or \"Revised\" License",
+        "spdx_id": "BSD-3-Clause"
+      },
+      "name": "closing-time",
+      "open_issues_count": 3,
+      "owner": {
+        "login": "necropsy-specimens"
+      },
+      "pushed_at": "2026-01-09T11:02:00+00:00",
+      "size": 1180,
+      "stargazers_count": 903,
+      "topics": [
+        "cli",
+        "archival",
+        "maintenance"
+      ]
+    },
+    "tree": {
+      "sha": "5pec1men30e97584dbaa57d61d588021ba0a4f10",
+      "tree": [
+        {
+          "mode": "100644",
+          "path": "README.md",
+          "size": 1024,
+          "type": "blob"
+        },
+        {
+          "mode": "100644",
+          "path": "LICENSE",
+          "size": 1024,
+          "type": "blob"
+        },
+        {
+          "mode": "100644",
+          "path": "CHANGELOG.md",
+          "size": 1024,
+          "type": "blob"
+        },
+        {
+          "mode": "100644",
+          "path": "CONTRIBUTING.md",
+          "size": 1024,
+          "type": "blob"
+        },
+        {
+          "mode": "100644",
+          "path": "CODE_OF_CONDUCT.md",
+          "size": 1024,
+          "type": "blob"
+        },
+        {
+          "mode": "100644",
+          "path": "pyproject.toml",
+          "size": 1024,
+          "type": "blob"
+        },
+        {
+          "mode": "100644",
+          "path": "poetry.lock",
+          "size": 1024,
+          "type": "blob"
+        },
+        {
+          "mode": "100644",
+          "path": ".github/workflows/test.yml",
+          "size": 1024,
+          "type": "blob"
+        },
+        {
+          "mode": "100644",
+          "path": ".github/workflows/release.yml",
+          "size": 1024,
+          "type": "blob"
+        },
+        {
+          "mode": "100644",
+          "path": "docs/index.md",
+          "size": 1024,
+          "type": "blob"
+        },
+        {
+          "mode": "100644",
+          "path": "docs/usage.md",
+          "size": 1024,
+          "type": "blob"
+        },
+        {
+          "mode": "100644",
+          "path": "docs/archive-format.md",
+          "size": 1024,
+          "type": "blob"
+        },
+        {
+          "mode": "100644",
+          "path": "docs/why-archive.md",
+          "size": 1024,
+          "type": "blob"
+        },
+        {
+          "mode": "100644",
+          "path": "closing_time/__init__.py",
+          "size": 1024,
+          "type": "blob"
+        },
+        {
+          "mode": "100644",
+          "path": "closing_time/cli.py",
+          "size": 1024,
+          "type": "blob"
+        },
+        {
+          "mode": "100644",
+          "path": "closing_time/freeze.py",
+          "size": 1024,
+          "type": "blob"
+        },
+        {
+          "mode": "100644",
+          "path": "closing_time/changelog.py",
+          "size": 1024,
+          "type": "blob"
+        },
+        {
+          "mode": "100644",
+          "path": "closing_time/manifest.py",
+          "size": 1024,
+          "type": "blob"
+        },
+        {
+          "mode": "100644",
+          "path": "closing_time/templates/final.md.j2",
+          "size": 1024,
+          "type": "blob"
+        },
+        {
+          "mode": "100644",
+          "path": "tests/test_cli.py",
+          "size": 1024,
+          "type": "blob"
+        },
+        {
+          "mode": "100644",
+          "path": "tests/test_freeze.py",
+          "size": 1024,
+          "type": "blob"
+        },
+        {
+          "mode": "100644",
+          "path": "tests/test_changelog.py",
+          "size": 1024,
+          "type": "blob"
+        },
+        {
+          "mode": "100644",
+          "path": "tests/test_manifest.py",
+          "size": 1024,
+          "type": "blob"
+        },
+        {
+          "mode": "100644",
+          "path": "tests/test_templates.py",
+          "size": 1024,
+          "type": "blob"
+        },
+        {
+          "mode": "100644",
+          "path": "tests/test_roundtrip.py",
+          "size": 1024,
+          "type": "blob"
+        },
+        {
+          "mode": "100644",
+          "path": "tests/test_errors.py",
+          "size": 1024,
+          "type": "blob"
+        },
+        {
+          "mode": "100644",
+          "path": "tests/test_integration.py",
+          "size": 1024,
+          "type": "blob"
+        },
+        {
+          "mode": "100644",
+          "path": "tests/unit/test_freeze_pins.py",
+          "size": 1024,
+          "type": "blob"
+        },
+        {
+          "mode": "100644",
+          "path": "tests/unit/test_freeze_extras.py",
+          "size": 1024,
+          "type": "blob"
+        },
+        {
+          "mode": "100644",
+          "path": "tests/unit/test_changelog_sections.py",
+          "size": 1024,
+          "type": "blob"
+        },
+        {
+          "mode": "100644",
+          "path": "tests/unit/test_changelog_dates.py",
+          "size": 1024,
+          "type": "blob"
+        },
+        {
+          "mode": "100644",
+          "path": "tests/unit/test_manifest_parse.py",
+          "size": 1024,
+          "type": "blob"
+        },
+        {
+          "mode": "100644",
+          "path": "tests/unit/test_manifest_write.py",
+          "size": 1024,
+          "type": "blob"
+        },
+        {
+          "mode": "100644",
+          "path": "tests/unit/test_cli_flags.py",
+          "size": 1024,
+          "type": "blob"
+        },
+        {
+          "mode": "100644",
+          "path": "tests/unit/test_cli_exit_codes.py",
+          "size": 1024,
+          "type": "blob"
+        },
+        {
+          "mode": "100644",
+          "path": "tests/unit/test_templates_render.py",
+          "size": 1024,
+          "type": "blob"
+        },
+        {
+          "mode": "100644",
+          "path": "tests/unit/test_templates_escape.py",
+          "size": 1024,
+          "type": "blob"
+        },
+        {
+          "mode": "100644",
+          "path": "tests/unit/test_errors_messages.py",
+          "size": 1024,
+          "type": "blob"
+        },
+        {
+          "mode": "100644",
+          "path": "tests/unit/test_errors_codes.py",
+          "size": 1024,
+          "type": "blob"
+        },
+        {
+          "mode": "100644",
+          "path": "tests/unit/test_integration_smoke.py",
+          "size": 1024,
+          "type": "blob"
+        },
+        {
+          "mode": "100644",
+          "path": "tests/unit/test_integration_idempotent.py",
+          "size": 1024,
+          "type": "blob"
+        }
+      ],
+      "truncated": false
+    }
+  },
+  "tolerated": []
+}

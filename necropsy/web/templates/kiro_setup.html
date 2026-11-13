@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% block title %}NECROPSY — resurrect in Kiro{% endblock %}
+{% block content %}
+<section class="plaque reveal lit revealed kiro-setup">
+  <a class="back-link" href="{{ url_for('gallery') }}">← back to the wall</a>
+  <header class="plaque-head">
+    <h1 class="epitaph">Resurrect in Kiro</h1>
+    <p class="epitaph-source mono">NECROPSY exposes its pipeline to Kiro over the Model Context Protocol.</p>
+  </header>
+
+  <section class="section">
+    <h2>1. Register the MCP server</h2>
+    <p>Add this to <code class="mono">.kiro/settings/mcp.json</code> in your workspace,
+       or <code class="mono">~/.kiro/settings/mcp.json</code> for every workspace.</p>
+    <pre class="receipt-json mono" id="mcp-config">{
+  "mcpServers": {
+    "necropsy": {
+      "command": "python",
+      "args": ["-m", "necropsy.cli", "mcp"],
+      "env": { "DATABASE_PATH": "./necropsy.db" },
+      "disabled": false,
+      "autoApprove": ["list_graveyard", "get_exhibit"]
+    }
+  }
+}</pre>
+    <button class="copy-spec mono" type="button" id="copy-config">Copy config</button>
+  </section>
+
+  <section class="section">
+    <h2>2. Ask Kiro to revive a repo</h2>
+    <p class="avr-text">
+      Reconnect the server from Kiro's MCP panel, then say:
+    </p>
+    <blockquote class="last-words mono">
+      “Analyze github.com/owner/dead-repo with NECROPSY, then write a revival spec.”
+    </blockquote>
+    <p class="avr-text muted">
+      Kiro calls <code class="mono">analyze_repo</code>, receives the structured
+      post-mortem, and writes a revival spec mapping each plan step to a concrete
+      task. The four tools: <code class="mono">analyze_repo</code>,
+      <code class="mono">get_exhibit</code>, <code class="mono">list_graveyard</code>,
+      <code class="mono">write_revival_spec</code>.
+    </p>
+  </section>
+
+  <section class="section">
+    <h2>3. What it will and will not do</h2>
+    <p class="avr-text">
+      NECROPSY reads the GitHub REST API and nothing else. It never clones, never
+      executes repository code, never opens issues, and writes nothing back except
+      its own cache. “Analyze this repo” is the whole contract.
+    </p>
+  </section>
+</section>
+
+<div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+{% endblock %}
+{% block scripts %}
+<script type="module">
+  const btn = document.getElementById("copy-config");
+  const pre = document.getElementById("mcp-config");
+  if (btn && pre) {
+    btn.addEventListener("click", async () => {
+      try { await navigator.clipboard.writeText(pre.textContent); btn.textContent = "Copied"; }
+      catch (e) { btn.textContent = "Copy failed"; }
+      setTimeout(() => { btn.textContent = "Copy config"; }, 1400);
+    });
+  }
+</script>
+{% endblock %}

@@ -1,0 +1,87 @@
+{
+  "compiled_at": "2026-11-01",
+  "exhibits": [
+    {
+      "band": "serious_decay",
+      "commit_sha": "5pec1men820af120a5ed001b08f4003342891cb6",
+      "fixture_provenance": "compiled_specimen",
+      "outcome": "seeded",
+      "repo_url": "github.com/necropsy-specimens/atlas-mapper",
+      "score": 68,
+      "slug": "atlas-mapper",
+      "verified_on_github": false
+    },
+    {
+      "band": "serious_decay",
+      "commit_sha": "5pec1menc5d810035b4ba77cafa4701c6b797ee0",
+      "fixture_provenance": "compiled_specimen",
+      "outcome": "seeded",
+      "repo_url": "github.com/necropsy-specimens/gemstone-cart",
+      "score": 68,
+      "slug": "gemstone-cart",
+      "verified_on_github": false
+    },
+    {
+      "band": "serious_decay",
+      "commit_sha": "5pec1mend052024b7c47853f160130a4ba63dc5f",
+      "fixture_provenance": "compiled_specimen",
+      "outcome": "seeded",
+      "repo_url": "github.com/necropsy-specimens/solo-sync",
+      "score": 61,
+      "slug": "solo-sync",
+      "verified_on_github": false
+    },
+    {
+      "band": "recoverable",
+      "commit_sha": "5pec1men4fd22d06a8e052ca07f271fda8fec556",
+      "fixture_provenance": "compiled_specimen",
+      "outcome": "seeded",
+      "repo_url": "github.com/necropsy-specimens/half-built-parser",
+      "score": 44,
+      "slug": "half-built-parser",
+      "verified_on_github": false
+    },
+    {
+      "band": "recoverable",
+      "commit_sha": "5pec1men0a04076692863cc27f645ad5f0333995",
+      "fixture_provenance": "compiled_specimen",
+      "outcome": "seeded",
+      "repo_url": "github.com/necropsy-specimens/legacy-ledger",
+      "score": 44,
+      "slug": "legacy-ledger",
+      "verified_on_github": false
+    },
+    {
+      "band": "deep_decay",
+      "commit_sha": "5pec1men3074a92a1a3db79368ea3064d5b02f66",
+      "fixture_provenance": "compiled_specimen",
+      "outcome": "seeded",
+      "repo_url": "github.com/necropsy-specimens/quickshare",
+      "score": 76,
+      "slug": "quickshare",
+      "verified_on_github": false
+    },
+    {
+      "band": "shallow_grave",
+      "commit_sha": "5pec1men30e97584dbaa57d61d588021ba0a4f10",
+      "fixture_provenance": "compiled_specimen",
+      "outcome": "seeded",
+      "repo_url": "github.com/necropsy-specimens/closing-time",
+      "score": 18,
+      "slug": "closing-time",
+      "verified_on_github": false
+    },
+    {
+      "band": "do_not_exhume",
+      "commit_sha": "5pec1men48b3d13d91f99f56fd2fc2fa2059f0c6",
+      "fixture_provenance": "compiled_specimen",
+      "outcome": "seeded",
+      "repo_url": "github.com/necropsy-specimens/monolith-erp",
+      "score": 97,
+      "slug": "monolith-erp",
+      "verified_on_github": false
+    }
+  ],
+  "generated_note": "Every exhibit below traces to the listed repo_url at the listed commit_sha. Entries marked verified_on_github=true were fetched from the GitHub API; entries marked false are compiled specimens whose payloads are committed under necropsy/graveyard/fixtures/.",
+  "manifest_version": 1
+}
