@@ -24,7 +24,7 @@ from typing import Any
 from flask import Flask, Response, jsonify, render_template, request, url_for
 
 from necropsy.analysis.service import AnalysisService
-from necropsy.analysis.vitals import compute_vitals
+from necropsy.analysis.vitals import compute_vitals, pulse_line
 from necropsy.config import Config, load_config
 from necropsy.errors import NecropsyError, NotInGraveyard, wrap_unexpected
 from necropsy.github.urls import canonicalize
@@ -115,6 +115,21 @@ def _register_routes(app: Flask) -> None:
             raise _not_found(slug)
         payload = found.analysis.to_payload(cache_status="hit")
         vitals = compute_vitals(found.analysis.facts)
+
+        # An active repository gets a check-up page, not a plaque: no epitaph,
+        # no letter, no tombstone, no revival plan (P6).
+        if found.analysis.narrative.living:
+            headline, detail = pulse_line(found.analysis.facts.days_since_last_commit)
+            return render_template(
+                "living.html",
+                payload=payload,
+                vitals=vitals,
+                pulse_headline=headline,
+                pulse_detail=detail,
+                cached_tag=_cached_tag(found),
+                absent=[i for i in payload["whats_missing"]["items"] if not i["present"]],
+            )
+
         receipts = _receipts(found.row, found.analysis)
         return render_template(
             "exhibit.html",

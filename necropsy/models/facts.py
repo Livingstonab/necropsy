@@ -11,6 +11,8 @@ from typing import Literal
 
 from pydantic import BaseModel, Field
 
+from necropsy import LIVING_THRESHOLD_DAYS
+
 Confidence = Literal["high", "medium", "low"]
 
 
@@ -108,6 +110,13 @@ class NormalizedFacts(BaseModel):
 
     # -- provenance ---------------------------------------------------------
     data_gaps: list[str] = Field(default_factory=list)
+
+    # -- life or death ------------------------------------------------------
+    @property
+    def is_living(self) -> bool:
+        """Active, not dead: committed to within `LIVING_THRESHOLD_DAYS` and not
+        archived. Derived from facts alone, so it is deterministic (E6)."""
+        return (not self.is_archived) and self.days_since_last_commit < LIVING_THRESHOLD_DAYS
 
     # -- grounding ----------------------------------------------------------
     def groundable(self) -> dict[str, object]:

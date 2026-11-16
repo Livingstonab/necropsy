@@ -614,3 +614,16 @@ a:hover { color: var(--ink); }
   .reveal.lit [data-letter] { transition: none; }
   .tomb-inscription { transition: none; }
 }
+
+/* ======================================================================
+   THE LIVING CHECK-UP: an active repository is not dead (P6).
+   Same restraint as the plaque; no animation, nothing to reveal.
+   ====================================================================== */
+.plaque.living { transform: none; }
+.living-title { font-style: normal; font-weight: 500; max-width: none; }
+.tag-living { background: var(--shallow_grave); }
+.pulse-line {
+  font-family: var(--font-carved); font-size: 1.25rem; color: var(--text-primary);
+  margin: 0.9rem 0 0.2rem;
+}
+.pulse-detail { color: var(--text-muted); font-family: var(--font-data); font-size: 0.8rem; margin: 0; }

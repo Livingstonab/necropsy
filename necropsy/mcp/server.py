@@ -140,10 +140,25 @@ class NecropsyTools:
                 f"No analyzed exhibit for {slug or repo_url!r}; analyze it first.",
                 details={"requested": slug or repo_url},
             )
+        if exhibit.analysis.narrative.living:
+            # An active repository has nothing to revive, and a spec for it would
+            # be invented work (revival-protocol: never invent a step). Say so.
+            return {
+                "ok": True,
+                "slug": exhibit.slug,
+                "repo_url": exhibit.analysis.facts.canonical_url,
+                "living": True,
+                "spec_markdown": None,
+                "message": (
+                    "This repository is active, so there is nothing to revive and "
+                    "no revival spec was written."
+                ),
+            }
         return {
             "ok": True,
             "slug": exhibit.slug,
             "repo_url": exhibit.analysis.facts.canonical_url,
+            "living": False,
             "spec_markdown": build_revival_spec(exhibit.analysis),
         }
 

@@ -38,6 +38,7 @@ SELECT e.id            AS exhibit_id,
        e.display_order AS display_order,
        e.user_inscription AS user_inscription,
        e.inscribed_at  AS inscribed_at,
+       e.is_living     AS is_living,
        e.updated_at    AS updated_at,
        a.*
   FROM exhibits e
@@ -61,6 +62,7 @@ class Exhibit:
     analysis: Analysis
     user_inscription: str | None = None
     inscribed_at: str | None = None
+    is_living: bool = False
 
     @classmethod
     def from_sqlite(cls, row: sqlite3.Row) -> Exhibit:
@@ -79,6 +81,7 @@ class Exhibit:
             analysis=load_analysis(analysis_row),
             user_inscription=row["user_inscription"] if "user_inscription" in keys else None,
             inscribed_at=row["inscribed_at"] if "inscribed_at" in keys else None,
+            is_living=bool(row["is_living"]) if "is_living" in keys else False,
         )
 
 
@@ -93,21 +96,27 @@ def upsert_exhibit(
     curated: bool = False,
     curator_note: str | None = None,
     display_order: int = 1000,
+    is_living: bool = False,
 ) -> int:
     """Point the repository's exhibit at `analysis_id`, creating it if needed.
 
     Curation flags and the curator note are only overwritten when the caller
     supplies them, so re-seeding cannot silently demote a curated exhibit and
     an ordinary re-analysis cannot promote one (R-5.5).
+
+    `is_living` is the exception: it always follows the newest analysis, because
+    a repository that was quiet last month and active this week (or the reverse)
+    should be filed under what it is now, not what it once was.
     """
     conn.execute(
         """
         INSERT INTO exhibits (
             repo_id, analysis_id, slug, plaque_title,
-            is_demo, curated, curator_note, display_order, updated_at
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+            is_demo, curated, curator_note, display_order, is_living, updated_at
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         ON CONFLICT(repo_id) DO UPDATE SET
             analysis_id   = excluded.analysis_id,
+            is_living     = excluded.is_living,
             plaque_title  = excluded.plaque_title,
             is_demo       = MAX(exhibits.is_demo, excluded.is_demo),
             curated       = MAX(exhibits.curated, excluded.curated),
@@ -124,6 +133,7 @@ def upsert_exhibit(
             int(curated),
             curator_note,
             display_order,
+            int(is_living),
             utc_now_iso(),
         ),
     )
@@ -207,7 +217,9 @@ def list_exhibits(
     order_by = _ORDER_BY.get(sort)
     if order_by is None:
         raise ValueError(f"sort must be one of {SORTS}, got {sort!r}")
-    where = " WHERE e.is_demo = 1" if demo_only else ""
+    # A living repository never hangs on the wall: it is not in the museum of the
+    # dead (P6). Its own page still works through get_by_slug.
+    where = " WHERE e.is_living = 0" + (" AND e.is_demo = 1" if demo_only else "")
     rows = conn.execute(
         f"{_SELECT}{where} ORDER BY {order_by} LIMIT ? OFFSET ?",
         (max(0, limit), max(0, offset)),
@@ -216,7 +228,7 @@ def list_exhibits(
 
 
 def count_exhibits(conn: sqlite3.Connection, *, demo_only: bool = False) -> int:
-    sql = "SELECT COUNT(*) AS n FROM exhibits"
+    sql = "SELECT COUNT(*) AS n FROM exhibits WHERE is_living = 0"
     if demo_only:
-        sql += " WHERE is_demo = 1"
+        sql += " AND is_demo = 1"
     return int(conn.execute(sql).fetchone()["n"])

@@ -266,6 +266,19 @@ def _print_exhibit(payload: dict[str, object]) -> None:
     built = payload["what_was_built"]
     assert isinstance(built, dict)
 
+    if payload.get("living"):
+        # An active repository gets a check-up, not an autopsy (P6): no epitaph,
+        # no score, no plan to revive something that is not dead.
+        print()
+        print(f"  {repo['owner']}/{repo['name']}  ({payload['cache_status']})")
+        print(f"  {'-' * 68}")
+        print("  Still breathing. No autopsy was performed.")
+        print(f"  {_c(cause['narrative'])}")
+        print()
+        print(f"  {_c(built['summary'])}")
+        print()
+        return
+
     print()
     print(f"  {repo['owner']}/{repo['name']}  ({payload['cache_status']})")
     print(f"  {'-' * 68}")

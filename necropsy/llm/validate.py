@@ -759,15 +759,17 @@ def template_summary(facts: NormalizedFacts) -> str:
 
 def template_missing_narrative(facts: NormalizedFacts) -> str:
     """Which structural pieces are absent, named rather than characterized."""
+    # No articles in the labels: the sentence below supplies "no", and "no a test
+    # suite" is what a label carrying its own "a" produced.
     absent = [
         label
         for present, label in (
-            (facts.has_tests, "a test suite"),
-            (facts.has_ci, "a CI configuration"),
-            (facts.has_license, "a LICENSE file"),
-            (facts.has_contributing, "a CONTRIBUTING file"),
+            (facts.has_tests, "test suite"),
+            (facts.has_ci, "CI configuration"),
+            (facts.has_license, "LICENSE file"),
+            (facts.has_contributing, "CONTRIBUTING file"),
             (facts.doc_page_count > 0, "documentation beyond the README"),
-            (facts.has_lockfile, "a dependency lockfile"),
+            (facts.has_lockfile, "dependency lockfile"),
         )
         if not present
     ]
@@ -780,6 +782,42 @@ def template_missing_narrative(facts: NormalizedFacts) -> str:
     return _cap(
         "The file tree contains no " + _join(absent) + ".",
         MISSING_NARRATIVE_MAX_CHARS,
+    )
+
+
+def living_narrative(facts: NormalizedFacts) -> LlmNarrative:
+    """The outcome for an active repository: a check-up, not an autopsy (P6).
+
+    Every prose section that would be false for a living project is `unavailable`
+    with the reason stated, the same honest pattern used when any section cannot
+    be produced (R-1.3, P7). What remains is factual: a summary and the list of
+    structural supports, both built from facts, never a cause of death, a letter,
+    or a plan to revive something that is not dead.
+    """
+    days = facts.days_since_last_commit
+    when = "today" if days == 0 else "yesterday" if days == 1 else f"{days} days ago"
+    reason = (
+        f"Last commit {when}. This repository is active, so there is nothing to "
+        "bury and no autopsy was performed."
+    )
+    return LlmNarrative(
+        what_was_built_summary=template_summary(facts),
+        summary_source="template",
+        cause_of_death=CauseOfDeath(
+            headline="Still breathing",
+            narrative=reason,
+            evidence=[],
+            source="unavailable",
+        ),
+        whats_missing_narrative=template_missing_narrative(facts),
+        whats_missing_narrative_source="template",
+        final_letter=Letter(text=reason, source="unavailable"),
+        epitaph=Epitaph(text=reason, source="unavailable", evidence=None),
+        resurrection_plan=[],
+        resurrection_plan_source="unavailable",
+        confidence_note=_cap(reason, 200),
+        llm_status="skipped",
+        living=True,
     )
 
 
@@ -860,6 +898,12 @@ def narrate(
     Property 11). It does not check that itself: ordering is `AnalysisService`'s
     responsibility, and a check here would imply the ordering is negotiable.
     """
+    # An active repository gets a check-up, not an autopsy, and it must not spend
+    # a model call on prose that would be false for it. This sits before the
+    # provider check so no key, configured or not, can reach a living repo (E1).
+    if facts.is_living:
+        return NarrationResult(narrative=living_narrative(facts))
+
     if client is None:
         return NarrationResult(
             narrative=template_narrative(

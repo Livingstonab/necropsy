@@ -306,6 +306,7 @@ class AnalysisService:
                     analysis_id=row.id,
                     slug=ref.slug,
                     plaque_title=f"{ref.owner}/{ref.name}",
+                    is_living=result.analysis.narrative.living,
                 )
                 if narration is not None and narration.attempts:
                     llm_calls.record_attempts(

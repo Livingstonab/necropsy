@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+{% set f = payload.what_was_built %}
+{% block title %}{{ payload.repo.owner }}/{{ payload.repo.name }} — still breathing — NECROPSY{% endblock %}
+
+{% block content %}
+<article class="plaque living">
+  <a class="back-link" href="{{ url_for('gallery') }}">← back to the wall</a>
+
+  <header class="plaque-head living-head">
+    <div class="plaque-spot" aria-hidden="true"></div>
+    <p class="plaque-repo">
+      <a href="{{ payload.repo.html_url }}" rel="noopener noreferrer" target="_blank">
+        {{ payload.repo.owner }}/{{ payload.repo.name }}
+      </a>
+      <span class="tag tag-living">active</span>
+    </p>
+    <h1 class="epitaph living-title">Still breathing.</h1>
+    <p class="pulse-line">{{ pulse_headline }}</p>
+    <p class="pulse-detail">{{ pulse_detail }}</p>
+  </header>
+
+  <p class="curator-note">
+    Nothing to bury here, so no autopsy was performed. This is a check-up.
+    Come back when it goes quiet.
+  </p>
+
+  <section class="section vitals">
+    <h2>Vital signs</h2>
+    <p class="summary">{{ f.summary }}</p>
+
+    <div class="lang-bar" role="img" aria-label="Language composition by bytes">
+      {% for slice in vitals.languages %}
+      <span class="lang-seg" style="--w: {{ slice.percent }}%"
+            title="{{ slice.name }}: {{ slice.percent }}% ({{ '{:,}'.format(slice.bytes) }} bytes)">
+        <span class="lang-seg-label">{{ slice.name }}</span>
+      </span>
+      {% endfor %}
+    </div>
+    <ul class="lang-legend mono">
+      {% for slice in vitals.languages[:6] %}
+      <li><span class="legend-swatch swatch-{{ loop.index0 }}"></span>{{ slice.name }} {{ slice.percent }}%</li>
+      {% endfor %}
+    </ul>
+
+    <ul class="facts mono">
+      <li>~{{ '{:,}'.format(vitals.loc_estimate) }} lines <em>(estimate, {{ vitals.loc_confidence }} confidence)</em></li>
+      <li>{{ f.file_count }} files</li>
+      <li>{{ vitals.language_count }} language(s)</li>
+    </ul>
+
+    <div class="health-strip">
+      {% for sign in vitals.signs %}
+      <div class="vsign {{ 'ok' if sign.present else 'absent' }}" title="{{ sign.detail }}">
+        <span class="vsign-mark" aria-hidden="true">{{ '●' if sign.present else '○' }}</span>
+        <span class="vsign-label">{{ sign.label }}</span>
+        <span class="vsign-detail mono">{{ sign.detail }}</span>
+      </div>
+      {% endfor %}
+    </div>
+    <p class="strength-line mono">{{ vitals.strength_line }}.</p>
+  </section>
+
+  <section class="section">
+    <h2>What it could use</h2>
+    {% if absent %}
+    <ul class="missing-list">
+      {% for item in absent %}
+      <li class="missing absent">
+        <span class="mark" aria-hidden="true">○</span>
+        <span class="missing-label">{{ item.label }}</span>
+        <span class="missing-detail mono">{{ item.detail }}</span>
+      </li>
+      {% endfor %}
+    </ul>
+    {% else %}
+    <p class="avr-text">Nothing structural is missing. It has what a living project usually has.</p>
+    {% endif %}
+  </section>
+
+  <div class="cached-tag mono">
+    <span class="cached-dot" aria-hidden="true"></span>
+    {% if cached_tag.commit_url %}
+    Cached from GitHub — {{ cached_tag.fetched_at }} ·
+    <a href="{{ cached_tag.commit_url }}" rel="noopener noreferrer" target="_blank">commit {{ cached_tag.short_sha }}</a>
+    {% else %}
+    Captured {{ cached_tag.fetched_at }} · commit {{ cached_tag.short_sha }}
+    {% endif %}
+  </div>
+
+  <footer class="provenance mono">
+    as of {{ payload.as_of[:19] }} ·
+    {{ payload.provenance.github_calls_used }} GitHub call(s) ·
+    no model was called for this check-up ·
+    {{ payload.provenance.deprecation_table_version }}
+  </footer>
+</article>
+{% endblock %}

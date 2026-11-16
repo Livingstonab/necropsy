@@ -75,6 +75,10 @@ class LlmNarrative(BaseModel):
     confidence_note: str = ""
     llm_status: Literal["ok", "repaired", "failed", "skipped", "fallback"] = "skipped"
     rejected_stages: list[str] = Field(default_factory=list)
+    #: True for an active repository: the prose sections are `unavailable` with a
+    #: reason, because there is nothing to bury (P6, P7). Stored with the
+    #: narrative so a cached exhibit renders the same way on every read.
+    living: bool = False
 
     @classmethod
     def unavailable(cls, reason: str) -> LlmNarrative:

@@ -186,6 +186,8 @@ class Analysis(BaseModel):
         return {
             "ok": True,
             "cache_status": cache_status,
+            "status": "living" if self.narrative.living else "deceased",
+            "living": self.narrative.living,
             "served_at": (served_at or datetime.now().astimezone()).isoformat(),
             "slug": self.slug,
             "cache_key": self.cache_key,

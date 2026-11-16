@@ -76,6 +76,22 @@ class Vitals:
         return f"{present} of {len(self.signs)} structural supports present"
 
 
+def pulse_line(days: int) -> tuple[str, str]:
+    """The check-up headline and its plain detail for an active repository.
+
+    Factual and restrained: it states how recently the repository was touched
+    and nothing it cannot know. No claim about the future, no cheerleading, and
+    no word from the vocabulary of death (P6).
+    """
+    if days <= 0:
+        return "Last commit today.", "Someone was here today."
+    if days == 1:
+        return "Last commit yesterday.", "The work is still warm."
+    if days <= 7:
+        return f"Last commit {days} days ago.", "Committed to within the week."
+    return f"Last commit {days} days ago.", "Committed to within the month."
+
+
 def compute_vitals(facts: NormalizedFacts) -> Vitals:
     """Project facts onto the vital-signs panel. Pure; adds no data."""
     languages = _language_slices(facts)
