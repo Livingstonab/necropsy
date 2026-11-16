@@ -223,7 +223,7 @@ def cmd_health(db: Database, cfg: Config) -> int:
         "llm_enabled": cfg.llm_enabled,
         "rate_limit_remaining": state.remaining if state else None,
         "rate_limit_limit": state.limit if state else None,
-        "reset_at": state.reset_at.isoformat() if state and state.reset_at else None,
+        "reset_at": state.reset_at if state else None,
     }
     print(json.dumps(payload, indent=2))
     return 0
@@ -232,6 +232,22 @@ def cmd_health(db: Database, cfg: Config) -> int:
 # --------------------------------------------------------------------------
 # rendering
 # --------------------------------------------------------------------------
+def _c(text: object) -> str:
+    """Render arbitrary repository text for the console encoding.
+
+    Real-world READMEs carry zero-width spaces and emoji; cp1252 terminals
+    would raise UnicodeEncodeError on them.
+    """
+    s = str(text)
+    try:
+        s.encode(sys.stdout.encoding or "ascii")
+    except (UnicodeEncodeError, LookupError):
+        s = s.encode(sys.stdout.encoding or "ascii", "replace").decode(
+            sys.stdout.encoding or "ascii", "ignore"
+        )
+    return s
+
+
 def _print_exhibit(payload: dict[str, object]) -> None:
     """A plain-text plaque. The same seven sections the web exhibit renders."""
     repo = payload["repo"]
@@ -250,10 +266,10 @@ def _print_exhibit(payload: dict[str, object]) -> None:
     print()
     print(f"  {repo['owner']}/{repo['name']}  ({payload['cache_status']})")
     print(f"  {'-' * 68}")
-    print(f"  {epitaph['text']}")
+    print(f"  {_c(epitaph['text'])}")
     print(f"  [epitaph source: {epitaph['source']}]")
     print()
-    print(f"  {built['summary']}")
+    print(f"  {_c(built['summary'])}")
     print(
         f"  {built['primary_language'] or 'unknown'} · "
         f"~{built['loc_estimate']:,} lines (estimate, {built['loc_confidence']} confidence) · "
@@ -265,13 +281,13 @@ def _print_exhibit(payload: dict[str, object]) -> None:
     )
     print()
     print(f"  CAUSE OF DEATH  [{cause['source']}]")
-    print(f"  {cause['headline']}")
-    print(f"  {cause['narrative']}")
+    print(f"  {_c(cause['headline'])}")
+    print(f"  {_c(cause['narrative'])}")
     evidence = cause.get("evidence") or []
     assert isinstance(evidence, list)
     for item in evidence:
         print(f"    - {item['fact_key']} = {item['fact_value']}")
-        print(f"      {item['claim']}")
+        print(f"      {_c(item['claim'])}")
     print()
     print(f"  REVIVAL DIFFICULTY  {card['score']}/100 — {card['band']['label']}")
     for factor in card["factors"]:
@@ -290,8 +306,8 @@ def _print_exhibit(payload: dict[str, object]) -> None:
     plan = payload["resurrection_plan"]
     assert isinstance(plan, list)
     for step in plan:
-        print(f"    {step['order']}. {step['title']}  [{step['estimated_effort']}]")
-        print(f"       {step['detail']}")
+        print(f"    {step['order']}. {_c(step['title'])}  [{step['estimated_effort']}]")
+        print(f"       {_c(step['detail'])}")
         print(f"       addresses: {step['addresses_factor']}")
     provenance = payload["provenance"]
     assert isinstance(provenance, dict)
