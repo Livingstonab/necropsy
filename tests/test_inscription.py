@@ -17,7 +17,7 @@ from necropsy.store import exhibits
 from necropsy.store.db import Database
 from necropsy.web.app import create_app
 
-GEMSTONE = "necropsy-specimens--gemstone-cart"
+EXHIBIT = "left-pad--left-pad"
 
 
 @pytest.fixture
@@ -36,17 +36,17 @@ def client(seeded: Database) -> FlaskClient:
 # -- the store -------------------------------------------------------------
 def test_set_and_get_inscription(seeded: Database) -> None:
     with seeded.transaction() as conn:
-        updated = exhibits.set_inscription(conn, GEMSTONE, "I loved you. I'm sorry.")
+        updated = exhibits.set_inscription(conn, EXHIBIT, "I loved you. I'm sorry.")
     assert updated is True
-    assert exhibits.get_inscription(seeded.connect(), GEMSTONE) == "I loved you. I'm sorry."
+    assert exhibits.get_inscription(seeded.connect(), EXHIBIT) == "I loved you. I'm sorry."
 
 
 def test_empty_inscription_clears_rather_than_stores_blank(seeded: Database) -> None:
     with seeded.transaction() as conn:
-        exhibits.set_inscription(conn, GEMSTONE, "something")
+        exhibits.set_inscription(conn, EXHIBIT, "something")
     with seeded.transaction() as conn:
-        exhibits.set_inscription(conn, GEMSTONE, "   ")
-    assert exhibits.get_inscription(seeded.connect(), GEMSTONE) is None
+        exhibits.set_inscription(conn, EXHIBIT, "   ")
+    assert exhibits.get_inscription(seeded.connect(), EXHIBIT) is None
 
 
 def test_inscription_on_an_unknown_slug_updates_nothing(seeded: Database) -> None:
@@ -56,12 +56,12 @@ def test_inscription_on_an_unknown_slug_updates_nothing(seeded: Database) -> Non
 
 def test_inscription_rides_on_the_exhibit_not_the_analysis(seeded: Database) -> None:
     """E3: the cached analysis stays byte-identical; the inscription is separate."""
-    before = exhibits.get_by_slug(seeded.connect(), GEMSTONE)
+    before = exhibits.get_by_slug(seeded.connect(), EXHIBIT)
     assert before is not None
     before_json = before.row.normalized_json
     with seeded.transaction() as conn:
-        exhibits.set_inscription(conn, GEMSTONE, "a line")
-    after = exhibits.get_by_slug(seeded.connect(), GEMSTONE)
+        exhibits.set_inscription(conn, EXHIBIT, "a line")
+    after = exhibits.get_by_slug(seeded.connect(), EXHIBIT)
     assert after is not None
     assert after.row.normalized_json == before_json  # analysis untouched
     assert after.user_inscription == "a line"
@@ -70,21 +70,21 @@ def test_inscription_rides_on_the_exhibit_not_the_analysis(seeded: Database) -> 
 # -- the route and persistence ---------------------------------------------
 def test_inscribe_route_persists_across_reload(client: FlaskClient) -> None:
     res = client.post(
-        f"/api/exhibit/{GEMSTONE}/inscribe",
+        f"/api/exhibit/{EXHIBIT}/inscribe",
         json={"inscription": "I loved you. I'm sorry."},
     )
     assert res.status_code == 200
     assert res.get_json()["inscription"] == "I loved you. I'm sorry."
 
     # Reload the exhibit page: the inscription is rendered in place.
-    body = client.get(f"/exhibit/{GEMSTONE}").get_data(as_text=True)
+    body = client.get(f"/exhibit/{EXHIBIT}").get_data(as_text=True)
     assert "I loved you. I&#39;m sorry." in body or "I loved you. I'm sorry." in body
     assert "— you" in body
 
 
 def test_inscribe_empty_is_a_noop_via_route(client: FlaskClient) -> None:
-    client.post(f"/api/exhibit/{GEMSTONE}/inscribe", json={"inscription": "x"})
-    res = client.post(f"/api/exhibit/{GEMSTONE}/inscribe", json={"inscription": ""})
+    client.post(f"/api/exhibit/{EXHIBIT}/inscribe", json={"inscription": "x"})
+    res = client.post(f"/api/exhibit/{EXHIBIT}/inscribe", json={"inscription": ""})
     assert res.status_code == 200
     assert res.get_json()["inscription"] is None
 
@@ -96,7 +96,7 @@ def test_inscribe_unknown_exhibit_is_in_character_404(client: FlaskClient) -> No
 
 def test_overlong_inscription_is_stored_truncated_to_limit(client: FlaskClient) -> None:
     long_line = "x" * 400
-    res = client.post(f"/api/exhibit/{GEMSTONE}/inscribe", json={"inscription": long_line})
+    res = client.post(f"/api/exhibit/{EXHIBIT}/inscribe", json={"inscription": long_line})
     assert res.status_code == 200
     # Stored up to the route cap (500); display truncation is a template concern.
     stored = res.get_json()["inscription"]
@@ -105,13 +105,13 @@ def test_overlong_inscription_is_stored_truncated_to_limit(client: FlaskClient) 
 
 # -- the letter renders on the plaque --------------------------------------
 def test_exhibit_renders_the_letter(client: FlaskClient) -> None:
-    body = client.get(f"/exhibit/{GEMSTONE}").get_data(as_text=True)
+    body = client.get(f"/exhibit/{EXHIBIT}").get_data(as_text=True)
     assert "The letter it never sent" in body
     assert "letter-body" in body
 
 
 def test_exhibit_shows_the_tombstone_and_share(client: FlaskClient) -> None:
-    body = client.get(f"/exhibit/{GEMSTONE}").get_data(as_text=True)
+    body = client.get(f"/exhibit/{EXHIBIT}").get_data(as_text=True)
     assert "tombstone" in body
     assert "Inscribe a line for this repo" in body
     assert "Share this tombstone" in body
@@ -119,7 +119,7 @@ def test_exhibit_shows_the_tombstone_and_share(client: FlaskClient) -> None:
 
 def test_cached_tag_is_shown(client: FlaskClient) -> None:
     """The offline rule: proof-of-real-data tag is visible, not hidden."""
-    body = client.get(f"/exhibit/{GEMSTONE}").get_data(as_text=True)
+    body = client.get(f"/exhibit/{EXHIBIT}").get_data(as_text=True)
     assert "cached-tag" in body
     # Specimens say so plainly; real repos would link to the commit.
     assert "specimen" in body.lower() or "Cached from GitHub" in body
@@ -146,7 +146,7 @@ def test_cached_exhibit_renders_offline(seeded: Database, monkeypatch) -> None:
     app.testing = True
     client = app.test_client()
 
-    res = client.get(f"/exhibit/{GEMSTONE}")
+    res = client.get(f"/exhibit/{EXHIBIT}")
     assert res.status_code == 200
     body = res.get_data(as_text=True)
     # The full plaque, including the letter, rendered from cache.

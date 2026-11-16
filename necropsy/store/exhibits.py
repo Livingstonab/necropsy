@@ -137,6 +137,33 @@ def upsert_exhibit(
 INSCRIPTION_DISPLAY_MAX = 100
 
 
+def remove_absent_demos(conn: sqlite3.Connection, keep_slugs: set[str]) -> int:
+    """Take off the wall any seeded exhibit the manifest no longer declares.
+
+    The manifest is the declaration of the curated wall (R-5.3), so removing an
+    entry from it has to remove the exhibit too — otherwise re-seeding leaves a
+    repo on the wall that nothing vouches for any more.
+
+    The exhibit row goes, the analysis does not: it stays as evidence and as the
+    cache entry a re-add would reuse. Clearing `is_demo` instead of deleting is
+    not enough, because a visitor's own analysis is also a non-demo exhibit — the
+    wall would keep showing a retired specimen beside real ones, indistinguishable
+    from something a visitor asked for. Only rows the seeder marks (`is_demo` or
+    `curated`) are eligible, so a visitor's plaque can never be removed by this.
+    """
+    if not keep_slugs:
+        return 0
+    placeholders = ", ".join("?" for _ in keep_slugs)
+    cursor = conn.execute(
+        f"""
+        DELETE FROM exhibits
+        WHERE (is_demo = 1 OR curated = 1) AND slug NOT IN ({placeholders})
+        """,
+        tuple(sorted(keep_slugs)),
+    )
+    return cursor.rowcount
+
+
 def set_inscription(conn: sqlite3.Connection, slug: str, text: str | None) -> bool:
     """Carve (or clear) a visitor's inscription on an exhibit. Returns True if a
     row was updated. An empty or whitespace-only line clears it rather than

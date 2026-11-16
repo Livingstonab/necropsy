@@ -17,7 +17,7 @@ from necropsy.mcp.server import NecropsyTools
 from necropsy.store.db import Database
 from tests import factories
 
-GEMSTONE = "necropsy-specimens--gemstone-cart"
+EXHIBIT = "left-pad--left-pad"
 
 
 def test_spec_contains_all_three_plan_steps() -> None:
@@ -70,9 +70,9 @@ def tools(db: Database) -> NecropsyTools:
 
 
 def test_write_revival_spec_tool_returns_markdown(tools: NecropsyTools) -> None:
-    result = tools.write_revival_spec({"slug": GEMSTONE})
+    result = tools.write_revival_spec({"slug": EXHIBIT})
     assert result["ok"] is True
-    assert result["slug"] == GEMSTONE
+    assert result["slug"] == EXHIBIT
     spec = result["spec_markdown"]
     assert spec.count("### Task") == 3
     assert "Revival spec —" in spec
@@ -90,8 +90,8 @@ def test_web_button_and_mcp_tool_agree(tools: NecropsyTools, db: Database) -> No
     from necropsy.store import exhibits
     from necropsy.web.app import _full_spec
 
-    exhibit = exhibits.get_by_slug(db.connect(), GEMSTONE)
+    exhibit = exhibits.get_by_slug(db.connect(), EXHIBIT)
     assert exhibit is not None
     via_web = _full_spec(exhibit.analysis)
-    via_mcp = tools.write_revival_spec({"slug": GEMSTONE})["spec_markdown"]
+    via_mcp = tools.write_revival_spec({"slug": EXHIBIT})["spec_markdown"]
     assert via_web == via_mcp

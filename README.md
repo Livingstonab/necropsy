@@ -37,8 +37,8 @@ data**, not fabricated demo content.
   file to see the provenance of every exhibit on the wall.
 - Each exhibit carries a visible tag showing where its data came from. An
   API-verified exhibit links to the repository at the exact commit SHA so you can
-  check it on GitHub. A compiled specimen says so plainly — it is not passed off
-  as a live capture.
+  check it on GitHub. An exhibit captured any other way says so plainly on its
+  plaque — it is never passed off as a live capture.
 - **The LLM is never called for a cached exhibit.** Opening a cached exhibit
   offline touches no network and calls no model. The letter and epitaph shown are
   the ones generated at fetch time and cached by commit SHA.
@@ -47,18 +47,29 @@ data**, not fabricated demo content.
 
 ### A note on the shipped demo set
 
-The eight exhibits that ship with this repository are **compiled specimens** under
-the `necropsy-specimens` owner, each demonstrating one real failure mode (archived
-by owner, dependency-era death, single-maintainer disappearance, declared WIP,
-stale-but-healthy, no-licence, finished-and-quiet, abandoned monolith). They are
-labelled as specimens in the manifest, in `seed_log.json`, and on every plaque.
+The eight exhibits that ship with this repository are **real repositories**, each
+captured from the GitHub API and committed as a fixture. Every one is genuinely
+archived by its own owner — the app never asserts a death GitHub has not
+confirmed — and each plaque's "verify on GitHub" link resolves to the exact
+commit the analysis was run against. They span Python, Ruby, Java and JavaScript,
+and the reasons they stopped range from "absorbed by the platform it extended" to
+"the work was finished and published".
 
-To build a wall of **real** repositories instead, point
-`necropsy/graveyard/manifest.json` at the repositories you want and run
+The synthetic set the project was developed against
+(`necropsy/graveyard/specimens.py`) still drives the test suite: those
+descriptors let the tests pin behaviour at both score extremes, and across every
+failure mode, without depending on what a live repository happens to look like
+this week. They are fixtures for tests, not exhibits on the wall.
+
+To re-capture the wall, or to curate different repositories, point
+`necropsy/graveyard/manifest.json` at the ones you want and run
 `python -m necropsy.cli seed-graveyard --refresh` with a `GITHUB_TOKEN` set. That
 fetches each one from the GitHub API, commits its raw payload as a fixture, and
-flips its provenance to `api_verified` — after which every "verify on GitHub" link
-resolves to a real commit.
+rewrites the manifest's pinned commit SHA and provenance to `api_verified` —
+after which every "verify on GitHub" link resolves to a real commit. Repositories
+outside the size guards (over 50 MB, over 5,000 files, or a tree GitHub truncates)
+are reported per entry and left as they were, so a partial refresh cannot leave
+the wall unloadable.
 
 ## Narratives
 

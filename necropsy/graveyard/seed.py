@@ -24,21 +24,20 @@ from __future__ import annotations
 
 import json
 import logging
-from dataclasses import dataclass, field
-from datetime import datetime
+from dataclasses import dataclass, field, replace
+from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any, Literal
 
 from necropsy import ANALYSIS_SCHEMA_VERSION
 from necropsy.analysis.fetch import RawPayloads
-from necropsy.analysis.service import assemble, manifest_excerpts
+from necropsy.analysis.service import AnalysisService, assemble, manifest_excerpts
 from necropsy.config import Config, load_config
-from necropsy.graveyard import specimens
 from necropsy.graveyard.manifest import (
     FIXTURE_DIR,
+    MANIFEST_PATH,
     Manifest,
     ManifestEntry,
-    ManifestError,
 )
 from necropsy.graveyard.manifest import load as load_manifest
 from necropsy.llm.validate import narrate
@@ -134,8 +133,8 @@ def fixture_mapping(entry: ManifestEntry) -> dict[str, Any]:
     if not path.exists():
         raise FileNotFoundError(
             f"{entry.slug}: the manifest names {entry.fixture}, which is not in "
-            f"{FIXTURE_DIR.name}/. Run seed-graveyard --write-fixtures to generate "
-            f"the specimen set, or --refresh with a token to capture the real one."
+            f"{FIXTURE_DIR.name}/. Run seed-graveyard --refresh with a token to "
+            f"capture it from the GitHub API."
         )
     mapping = json.loads(path.read_text(encoding="utf-8"))
     if not isinstance(mapping, dict):
@@ -183,26 +182,116 @@ def write_fixture(entry: ManifestEntry, mapping: dict[str, Any], *, as_of: str) 
     return path
 
 
-def write_specimen_fixtures(manifest: Manifest | None = None) -> list[Path]:
-    """Generate the committed specimen fixtures from `specimens.py`.
+def refresh(
+    db: Database,
+    *,
+    manifest: Manifest | None = None,
+    config: Config | None = None,
+    manifest_path: Path | None = None,
+) -> SeedReport:
+    """Capture live fixtures for every entry, flip provenance, then seed offline.
 
-    The descriptors are the source and the fixtures are the artifact. Both are
-    committed, because E13 wants the demo reproducible from the artifact alone.
+    This is the documented route from a specimen wall to an `api_verified` one. It
+    deliberately reuses `AnalysisService` rather than growing a second fetch path
+    (E8): what lands in the fixture is exactly what a visitor's paste would have
+    stored, so the offline demo replays a real capture instead of a parallel
+    implementation of one.
+
+    The LLM is switched off here on purpose. Capture records evidence; the
+    narrative is regenerated deterministically by `seed()` at load time, which is
+    what keeps a committed fixture byte-stable.
     """
     resolved = manifest or load_manifest()
-    catalogue = specimens.by_slug()
-    written: list[Path] = []
-    for entry in resolved.ordered:
-        spec = catalogue.get(entry.slug)
-        if spec is None:
-            raise ManifestError(
-                f"{entry.slug} has no specimen descriptor; either add one to "
-                "specimens.py or capture a real fixture with --refresh"
+    cfg = config or load_config()
+    service = AnalysisService(db, config=cfg, build_llm=False)
+    report = SeedReport(mode="refresh")
+    captured_shas: dict[str, str] = {}
+
+    try:
+        for entry in resolved.ordered:
+            try:
+                result = service.analyze(entry.canonical_url, force_refresh=True)
+                row = result.row
+                if row is None:  # pragma: no cover - a completed analysis has a row
+                    raise RuntimeError("the analysis produced no stored row to capture")
+            except Exception as exc:  # noqa: BLE001 - one unfetchable repo must not stop the wall
+                log.warning("could not capture %s: %s", entry.slug, exc)
+                report.entries.append(
+                    EntryReport(
+                        entry.slug,
+                        "failed",
+                        detail=f"{type(exc).__name__}: {exc}",
+                        expected_band=entry.expected_band,
+                    )
+                )
+                continue
+
+            captured = replace(
+                entry,
+                pinned_commit_sha=row.last_commit_sha,
+                fixture_provenance="api_verified",
             )
-        written.append(
-            write_fixture(entry, specimens.build_payloads(spec), as_of=specimens.AS_OF)
+            write_fixture(captured, row.raw_payloads(), as_of=row.as_of)
+            captured_shas[entry.slug] = row.last_commit_sha
+            report.entries.append(
+                EntryReport(
+                    captured.slug,
+                    "seeded",
+                    score=row.score,
+                    band=row.band,
+                    detail=f"captured {row.last_commit_sha[:7]} from the API",
+                    expected_band=entry.expected_band,
+                )
+            )
+    finally:
+        service.close()
+
+    failures = {e.slug for e in report.entries if not e.ok}
+    if failures:
+        report.entries.append(
+            EntryReport(
+                "(manifest)",
+                "failed",
+                detail=(
+                    f"{len(failures)} entr{'y' if len(failures) == 1 else 'ies'} could not be "
+                    "captured; the manifest and their fixtures are unchanged, so the wall "
+                    "still loads offline"
+                ),
+            )
         )
-    return written
+        return report
+
+    _retire_specimen_provenance(manifest_path or MANIFEST_PATH, captured_shas)
+    seeded = seed(db, manifest=load_manifest(manifest_path), config=cfg)
+    seeded.mode = "refresh -> offline seed"
+    return seeded
+
+
+def _retire_specimen_provenance(path: Path, captured_shas: dict[str, str]) -> None:
+    """Point the manifest's own declarations at the capture that just happened.
+
+    Both the SHA and the provenance have to move together: `fixture_mapping`
+    compares them field by field, so a manifest still holding the pre-capture SHA
+    would report drift on every entry.
+
+    Edited surgically rather than re-rendered from `ManifestEntry`, because the
+    curator fields the parser does not model (`verified_dead`,
+    `why_it_is_a_good_exhibit`) are exactly the ones a rewrite would silently drop.
+    """
+    document = json.loads(path.read_text(encoding="utf-8"))
+    for item in document.get("entries", []):
+        item["fixture_provenance"] = "api_verified"
+        sha = captured_shas.get(str(item.get("slug")))
+        if sha:
+            item["pinned_commit_sha"] = sha
+    document["note"] = (
+        "Every exhibit below was captured from the GitHub API by "
+        "`seed-graveyard --refresh` and committed under necropsy/graveyard/fixtures/ "
+        "at the pinned commit SHA. The wall is api_verified: the offline demo replays "
+        "those committed captures, so it needs no network and no keys."
+    )
+    document["compiled_at"] = datetime.now(UTC).date().isoformat()
+    path.write_text(json.dumps(document, indent=2) + "\n", encoding="utf-8")
 
 
 # --------------------------------------------------------------------------
@@ -298,12 +387,30 @@ def seed(
                 )
             )
 
-    if not verify_only and not report.failures:
-        try:
-            write_seed_log(report, resolved)
-        except Exception:  # pragma: no cover - the log is evidence, not the product
-            log.warning("could not write the seed log")
+    if not verify_only:
+        _retire_demos_absent_from_the_manifest(db, resolved)
+        if not report.failures:
+            try:
+                write_seed_log(report, resolved)
+            except Exception:  # pragma: no cover - the log is evidence, not the product
+                log.warning("could not write the seed log")
     return report
+
+
+def _retire_demos_absent_from_the_manifest(db: Database, manifest: Manifest) -> None:
+    """Take off the wall exhibits whose manifest entry has gone away.
+
+    Runs even when some entries failed to load, because the ones that did load
+    are exactly the ones the manifest still vouches for.
+    """
+    keep = set()
+    for entry in manifest.ordered:
+        owner, name = entry.canonical_url.split("/")[-2:]
+        keep.add(RepoRef(owner=owner, name=name).slug)
+    with db.transaction() as conn:
+        retired = exhibits.remove_absent_demos(conn, keep)
+    if retired:
+        log.info("retired %d exhibit(s) no longer declared by the manifest", retired)
 
 
 def _seed_entry(

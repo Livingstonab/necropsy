@@ -92,27 +92,27 @@ def test_list_graveyard_makes_no_network_call(tools: NecropsyTools) -> None:
 # -- get_exhibit -----------------------------------------------------------
 #: The canonical exhibit slug is owner--name (design §3), not the manifest's
 #: shorter curator key.
-GEMSTONE = "necropsy-specimens--gemstone-cart"
+EXHIBIT = "left-pad--left-pad"
 
 
 def test_get_exhibit_by_slug(tools: NecropsyTools) -> None:
-    payload = tools.get_exhibit({"slug": GEMSTONE})
+    payload = tools.get_exhibit({"slug": EXHIBIT})
     assert payload["ok"] is True
-    assert payload["slug"] == GEMSTONE
+    assert payload["slug"] == EXHIBIT
     assert payload["cache_status"] == "hit"
     assert "scorecard" in payload and "resurrection_plan" in payload
 
 
 def test_get_exhibit_by_repo_url(tools: NecropsyTools) -> None:
     payload = tools.get_exhibit(
-        {"repo_url": "https://github.com/necropsy-specimens/gemstone-cart"}
+        {"repo_url": "https://github.com/left-pad/left-pad"}
     )
-    assert payload["slug"] == GEMSTONE
+    assert payload["slug"] == EXHIBIT
 
 
 def test_get_exhibit_exposes_the_full_scorecard(tools: NecropsyTools) -> None:
     """R-11 / E5: a tool never returns an opaque score."""
-    card = tools.get_exhibit({"slug": GEMSTONE})["scorecard"]
+    card = tools.get_exhibit({"slug": EXHIBIT})["scorecard"]
     assert card["score"] == round(card["total_unrounded"])
     assert len(card["factors"]) == 8
     for factor in card["factors"]:
@@ -136,7 +136,7 @@ def test_get_exhibit_miss_is_not_in_graveyard(tools: NecropsyTools) -> None:
 def test_get_exhibit_never_calls_the_network(tools: NecropsyTools) -> None:
     """R-11.5, Property 11. Even a miss makes no call: offline_service raises."""
     # A hit and a miss both complete without the raising client firing.
-    assert tools.get_exhibit({"slug": "necropsy-specimens--solo-sync"})["ok"] is True
+    assert tools.get_exhibit({"slug": "thoughtbot--paperclip"})["ok"] is True
     miss = tools.call("get_exhibit", {"slug": "not-a-real-slug"})
     assert miss["ok"] is False and miss["error"]["code"] == "NOT_IN_GRAVEYARD"
 
@@ -146,11 +146,11 @@ def test_analyze_repo_offline_serves_a_cached_exhibit(tools: NecropsyTools) -> N
     """R-11.4 shape: allow_network=false returns the cached analysis."""
     payload = tools.call(
         "analyze_repo",
-        {"url": "github.com/necropsy-specimens/atlas-mapper", "allow_network": False},
+        {"url": "github.com/progit/progit", "allow_network": False},
     )
     assert payload["ok"] is True
     assert payload["cache_status"] == "hit"
-    assert payload["slug"] == "necropsy-specimens--atlas-mapper"
+    assert payload["slug"] == "progit--progit"
 
 
 def test_analyze_repo_offline_miss_is_an_envelope(tools: NecropsyTools) -> None:
@@ -188,7 +188,7 @@ def test_tools_work_with_an_empty_environment(seeded: Database) -> None:
     """R-11.10. No token, no LLM key: the read tools still serve."""
     tools = NecropsyTools(seeded)  # clean_env fixture guarantees an empty env
     assert tools.list_graveyard({})["ok"] is True
-    assert tools.get_exhibit({"slug": "necropsy-specimens--closing-time"})["ok"] is True
+    assert tools.get_exhibit({"slug": "google-research--bert"})["ok"] is True
 
 
 # -- the server wires up ---------------------------------------------------

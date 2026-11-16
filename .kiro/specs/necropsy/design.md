@@ -898,20 +898,40 @@ base.html
 
 ### 8.4 Demo graveyard curation targets (R-5.7)
 
-Eight slots selected so the wall shows spread rather than a column of identical scores:
+Eight slots selected so the wall shows spread rather than a column of identical scores.
 
-| Slot | Failure mode to exhibit | Band target |
+**Structural constraint discovered while curating from real repositories.** Every
+exhibit on the wall is a genuinely archived repository (R-5.4, P7: no compiled
+specimens stand in for real corpses). `archived` floors two factors on their
+maximum branch — `_abandonment` at 0.85 (scorecard.py:79) and
+`_maintainer_absence` at 0.90 (scorecard.py:209) — which is `0.85·20 + 0.90·12 =
+27.8` points before any other factor contributes. So a real archived repo cannot
+score below 28, which puts `shallow_grave` (0–24) out of reach by construction,
+and across ~96 probed archived candidates none reached `do_not_exhume` (90–100):
+the ceiling was 86. A wall made only of real dead repositories therefore spans at
+most three bands — `recoverable`, `serious_decay`, `deep_decay`. The original
+seven-and-eight slots (`shallow_grave`, `do_not_exhume`) are only reachable by a
+compiled specimen, and the demo rule (P4, P7) forbids passing one off as a corpse.
+
+The eight curated slots, all `fixture_provenance: api_verified`:
+
+| Slot | Failure mode to exhibit | Band reached |
 |---|---|---|
-| 1 | Archived by owner with a farewell README | `deep_decay` |
-| 2 | Dependency-era death (framework major version EOL) | `serious_decay` |
-| 3 | Single-maintainer disappearance, high unanswered-issue ratio | `serious_decay` |
-| 4 | Declared WIP, never finished, tiny codebase | `recoverable` |
-| 5 | Large codebase, good tests, simply stale | `recoverable` |
-| 6 | No license, no tests, no CI, moderate size | `deep_decay` |
-| 7 | Successful-but-finished project (low difficulty, still "dead") | `shallow_grave` |
-| 8 | Huge abandoned monolith | `do_not_exhume` |
+| 1 | Absorbed into the platform it extended | `recoverable` |
+| 2 | Superseded by its own successor fork | `recoverable` |
+| 3 | Retired in favour of the author's sibling library | `recoverable` |
+| 4 | Replaced by the host framework's built-in | `serious_decay` |
+| 5 | Research artifact whose purpose was served | `serious_decay` |
+| 6 | Single-maintainer disappearance | `serious_decay` |
+| 7 | Finished and deliberately at rest | `serious_decay` |
+| 8 | Abandoned with no licence and no successor | `deep_decay` |
 
-At least three distinct primary languages across the eight. `expected_band` is recorded in `manifest_entries` so curation drift is visible when the set is regenerated; drift warns, it never fails a request.
+At least three distinct primary languages across the eight. `expected_band` is
+recorded in `manifest_entries` so curation drift is visible when the set is
+regenerated; drift warns, it never fails a request. The wall test asserts three
+distinct bands and a score spread of at least 40, which real data reaches
+(33 to 85).
+
 
 ---
 

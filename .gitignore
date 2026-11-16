@@ -18,3 +18,9 @@ venv/
 # Hypothesis keeps a local example DB; committed counterexamples live in
 # tests/counterexamples.py instead.
 .hypothesis/
+
+# Runtime diagnostic written by the validator whenever a narrative falls back to
+# the template. It is written relative to the current directory, so the test
+# suite appends its own synthetic-repo noise to it on every run — a local
+# artifact, not evidence.
+fallback.log

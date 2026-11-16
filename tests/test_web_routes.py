@@ -21,7 +21,7 @@ from necropsy.graveyard import seed
 from necropsy.store.db import Database
 from necropsy.web.app import create_app
 
-GEMSTONE = "necropsy-specimens--gemstone-cart"
+EXHIBIT = "left-pad--left-pad"
 
 
 @pytest.fixture
@@ -38,7 +38,7 @@ def test_gallery_renders_one_card_per_exhibit(client: FlaskClient) -> None:
     assert res.status_code == 200
     body = res.get_data(as_text=True)
     assert "graveyard" in body.lower()
-    # Eight seeded specimens, eight cards.
+    # Eight curated exhibits, eight cards.
     assert body.count("exhibit-card") >= 8
     assert "Paste a GitHub URL" in body
 
@@ -53,8 +53,9 @@ def test_gallery_has_one_input_and_no_login(client: FlaskClient) -> None:
 
 def test_gallery_sort_is_server_side(client: FlaskClient) -> None:
     hardest = client.get("/?sort=hardest").get_data(as_text=True)
-    # monolith-erp (97) should appear before closing-time (18) in the markup.
-    assert hardest.index("monolith-erp") < hardest.index("closing-time")
+    # The deadest-to-revive order must hold on real captures: progit (69) is
+    # harder than gpt-engineer (44).
+    assert hardest.index("progit") < hardest.index("gpt-engineer")
 
 
 def test_unknown_sort_falls_back_to_curated(client: FlaskClient) -> None:
@@ -69,7 +70,7 @@ def test_exhibit_renders_all_seven_sections_in_order(client: FlaskClient) -> Non
     Vital signs panel (what the repo is and how strong it is), then cause,
     ambition, scorecard, missing, last words, plan.
     """
-    body = client.get(f"/exhibit/{GEMSTONE}").get_data(as_text=True)
+    body = client.get(f"/exhibit/{EXHIBIT}").get_data(as_text=True)
     assert body.count("<h1") >= 1  # the epitaph
     for heading in (
         "Vital signs",
@@ -87,7 +88,7 @@ def test_exhibit_renders_all_seven_sections_in_order(client: FlaskClient) -> Non
 
 def test_exhibit_shows_the_full_scorecard(client: FlaskClient) -> None:
     """E5: every factor visible with its contribution, plus the checksum."""
-    body = client.get(f"/exhibit/{GEMSTONE}").get_data(as_text=True)
+    body = client.get(f"/exhibit/{EXHIBIT}").get_data(as_text=True)
     assert "Abandonment" in body and "Dependency rot" in body
     assert "Sum of contributions" in body
     assert "weights sha256:" in body
@@ -95,8 +96,8 @@ def test_exhibit_shows_the_full_scorecard(client: FlaskClient) -> None:
 
 def test_exhibit_links_to_github_and_shows_as_of(client: FlaskClient) -> None:
     """R-7.4: a link out and the capture timestamp."""
-    body = client.get(f"/exhibit/{GEMSTONE}").get_data(as_text=True)
-    assert "https://github.com/necropsy-specimens/gemstone-cart" in body
+    body = client.get(f"/exhibit/{EXHIBIT}").get_data(as_text=True)
+    assert "https://github.com/left-pad/left-pad" in body
     assert "as of" in body
 
 
@@ -144,14 +145,14 @@ def test_health_never_leaks_a_secret(client: FlaskClient) -> None:
 
 # -- the upgraded plaque ---------------------------------------------------
 def test_exhibit_shows_vital_signs(client: FlaskClient) -> None:
-    body = client.get(f"/exhibit/{GEMSTONE}").get_data(as_text=True)
+    body = client.get(f"/exhibit/{EXHIBIT}").get_data(as_text=True)
     assert "Vital signs" in body
     assert "health-strip" in body
     assert "structural supports present" in body
 
 
 def test_exhibit_shows_ambition_vs_reality(client: FlaskClient) -> None:
-    body = client.get(f"/exhibit/{GEMSTONE}").get_data(as_text=True)
+    body = client.get(f"/exhibit/{EXHIBIT}").get_data(as_text=True)
     assert "Ambition vs reality" in body
     assert "Promised" in body and "Delivered" in body
     assert "where most side projects die" in body
@@ -159,14 +160,14 @@ def test_exhibit_shows_ambition_vs_reality(client: FlaskClient) -> None:
 
 def test_exhibit_embeds_raw_evidence_receipts(client: FlaskClient) -> None:
     """The trust moment: a receipt carries raw GitHub JSON for a cited fact."""
-    body = client.get(f"/exhibit/{GEMSTONE}").get_data(as_text=True)
+    body = client.get(f"/exhibit/{EXHIBIT}").get_data(as_text=True)
     assert 'class="receipt"' in body
     assert "Raw evidence" in body
     assert 'data-evidence-id=' in body
 
 
 def test_exhibit_has_the_resurrect_button(client: FlaskClient) -> None:
-    body = client.get(f"/exhibit/{GEMSTONE}").get_data(as_text=True)
+    body = client.get(f"/exhibit/{EXHIBIT}").get_data(as_text=True)
     assert "Resurrect in Kiro" in body
     assert "Revival spec" in body  # the full spec is embedded for the clipboard
 

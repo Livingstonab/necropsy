@@ -209,7 +209,10 @@ def detect_signals(paths: list[str], repo_meta: dict[str, object] | None = None)
     `repo_meta` is the call-2 payload; only `license` is consulted, and only to
     confirm a licence GitHub recognized when no LICENSE file is in the tree.
     """
-    cleaned = [p for p in (path.strip().lstrip("./") for path in paths) if p]
+    # `removeprefix("./")`, not `lstrip("./")`: lstrip takes a character *set*,
+    # so it ate the leading dot of every dotfile and made `.github/workflows/*`,
+    # `.travis.yml` and `.gitlab-ci.yml` invisible to the checks below.
+    cleaned = [p for p in (path.strip().removeprefix("./") for path in paths) if p]
     lowered = [p.lower() for p in cleaned]
 
     top_level: list[str] = []

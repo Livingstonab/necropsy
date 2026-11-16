@@ -1,85 +1,85 @@
 {
-  "compiled_at": "2026-11-01",
+  "compiled_at": "2026-11-16",
   "exhibits": [
     {
-      "band": "serious_decay",
-      "commit_sha": "5pec1men820af120a5ed001b08f4003342891cb6",
-      "fixture_provenance": "compiled_specimen",
+      "band": "recoverable",
+      "commit_sha": "a90fcd543eedcc0ff2c34561bc0785d2ba83c47e",
+      "fixture_provenance": "api_verified",
       "outcome": "seeded",
-      "repo_url": "github.com/necropsy-specimens/atlas-mapper",
-      "score": 68,
-      "slug": "atlas-mapper",
-      "verified_on_github": false
-    },
-    {
-      "band": "serious_decay",
-      "commit_sha": "5pec1menc5d810035b4ba77cafa4701c6b797ee0",
-      "fixture_provenance": "compiled_specimen",
-      "outcome": "seeded",
-      "repo_url": "github.com/necropsy-specimens/gemstone-cart",
-      "score": 68,
-      "slug": "gemstone-cart",
-      "verified_on_github": false
-    },
-    {
-      "band": "serious_decay",
-      "commit_sha": "5pec1mend052024b7c47853f160130a4ba63dc5f",
-      "fixture_provenance": "compiled_specimen",
-      "outcome": "seeded",
-      "repo_url": "github.com/necropsy-specimens/solo-sync",
-      "score": 61,
-      "slug": "solo-sync",
-      "verified_on_github": false
+      "repo_url": "github.com/antonosika/gpt-engineer",
+      "score": 33,
+      "slug": "antonosika--gpt-engineer",
+      "verified_on_github": true
     },
     {
       "band": "recoverable",
-      "commit_sha": "5pec1men4fd22d06a8e052ca07f271fda8fec556",
-      "fixture_provenance": "compiled_specimen",
+      "commit_sha": "bc212954b6713d5db303b3ead124de6cba66063e",
+      "fixture_provenance": "api_verified",
       "outcome": "seeded",
-      "repo_url": "github.com/necropsy-specimens/half-built-parser",
-      "score": 44,
-      "slug": "half-built-parser",
-      "verified_on_github": false
+      "repo_url": "github.com/openai/gym",
+      "score": 42,
+      "slug": "openai--gym",
+      "verified_on_github": true
     },
     {
       "band": "recoverable",
-      "commit_sha": "5pec1men0a04076692863cc27f645ad5f0333995",
-      "fixture_provenance": "compiled_specimen",
+      "commit_sha": "2a67589abd91879cf23a8c96542b59349485ec3d",
+      "fixture_provenance": "api_verified",
       "outcome": "seeded",
-      "repo_url": "github.com/necropsy-specimens/legacy-ledger",
-      "score": 44,
-      "slug": "legacy-ledger",
-      "verified_on_github": false
+      "repo_url": "github.com/square/otto",
+      "score": 48,
+      "slug": "square--otto",
+      "verified_on_github": true
+    },
+    {
+      "band": "serious_decay",
+      "commit_sha": "c769382c9b7078f3d1620b50ec2a70e91ba62ec4",
+      "fixture_provenance": "api_verified",
+      "outcome": "seeded",
+      "repo_url": "github.com/thoughtbot/paperclip",
+      "score": 50,
+      "slug": "thoughtbot--paperclip",
+      "verified_on_github": true
+    },
+    {
+      "band": "serious_decay",
+      "commit_sha": "eedf5716ce1268e56f0a50264a88cafad334ac61",
+      "fixture_provenance": "api_verified",
+      "outcome": "seeded",
+      "repo_url": "github.com/google-research/bert",
+      "score": 57,
+      "slug": "google-research--bert",
+      "verified_on_github": true
+    },
+    {
+      "band": "serious_decay",
+      "commit_sha": "2fca6157fcca165438e0f9495cf0e5a4e6f71349",
+      "fixture_provenance": "api_verified",
+      "outcome": "seeded",
+      "repo_url": "github.com/left-pad/left-pad",
+      "score": 59,
+      "slug": "left-pad--left-pad",
+      "verified_on_github": true
+    },
+    {
+      "band": "serious_decay",
+      "commit_sha": "61833a527c6ac0c44cc40793c034b81599c25efc",
+      "fixture_provenance": "api_verified",
+      "outcome": "seeded",
+      "repo_url": "github.com/progit/progit",
+      "score": 65,
+      "slug": "progit--progit",
+      "verified_on_github": true
     },
     {
       "band": "deep_decay",
-      "commit_sha": "5pec1men3074a92a1a3db79368ea3064d5b02f66",
-      "fixture_provenance": "compiled_specimen",
+      "commit_sha": "bfad2878c06146c7677659b99b2b748b425c5027",
+      "fixture_provenance": "api_verified",
       "outcome": "seeded",
-      "repo_url": "github.com/necropsy-specimens/quickshare",
-      "score": 76,
-      "slug": "quickshare",
-      "verified_on_github": false
-    },
-    {
-      "band": "shallow_grave",
-      "commit_sha": "5pec1men30e97584dbaa57d61d588021ba0a4f10",
-      "fixture_provenance": "compiled_specimen",
-      "outcome": "seeded",
-      "repo_url": "github.com/necropsy-specimens/closing-time",
-      "score": 18,
-      "slug": "closing-time",
-      "verified_on_github": false
-    },
-    {
-      "band": "do_not_exhume",
-      "commit_sha": "5pec1men48b3d13d91f99f56fd2fc2fa2059f0c6",
-      "fixture_provenance": "compiled_specimen",
-      "outcome": "seeded",
-      "repo_url": "github.com/necropsy-specimens/monolith-erp",
-      "score": 97,
-      "slug": "monolith-erp",
-      "verified_on_github": false
+      "repo_url": "github.com/shopify/vision",
+      "score": 85,
+      "slug": "shopify--vision",
+      "verified_on_github": true
     }
   ],
   "generated_note": "Every exhibit below traces to the listed repo_url at the listed commit_sha. Entries marked verified_on_github=true were fetched from the GitHub API; entries marked false are compiled specimens whose payloads are committed under necropsy/graveyard/fixtures/.",

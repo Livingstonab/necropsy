@@ -7,7 +7,7 @@ committed data is and is not.
 
 from necropsy.graveyard.manifest import Manifest, ManifestEntry, ManifestError
 from necropsy.graveyard.manifest import load as load_manifest
-from necropsy.graveyard.seed import SeedReport, seed, write_specimen_fixtures
+from necropsy.graveyard.seed import SeedReport, seed
 
 __all__ = [
     "Manifest",
@@ -16,5 +16,4 @@ __all__ = [
     "SeedReport",
     "load_manifest",
     "seed",
-    "write_specimen_fixtures",
 ]

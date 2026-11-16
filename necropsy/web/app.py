@@ -217,7 +217,12 @@ def _register_routes(app: Flask) -> None:
                 "token_present": cfg.token_present,
                 "llm_enabled": cfg.llm_enabled,
                 "rate_limit_remaining": state.remaining if state else None,
-                "reset_at": state.reset_at.isoformat() if state and state.reset_at else None,
+                # `reset_at` is already the ISO string GitHub sent, stored as-is
+                # (ledger.RateLimitState.reset_at is `str | None`). Calling
+                # `.isoformat()` on it raised, and `/api/health` is what Render's
+                # healthCheckPath polls, so one API call made the whole service
+                # look unhealthy.
+                "reset_at": state.reset_at if state else None,
             }
         )
 

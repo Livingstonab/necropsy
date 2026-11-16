@@ -28,7 +28,8 @@ from necropsy import ANALYSIS_SCHEMA_VERSION, __version__
 from necropsy.config import Config, configure_logging, load_config
 from necropsy.errors import NecropsyError
 from necropsy.graveyard import manifest as manifest_module
-from necropsy.graveyard.seed import seed, write_specimen_fixtures
+from necropsy.graveyard.seed import refresh as seed_refresh
+from necropsy.graveyard.seed import seed
 from necropsy.store import analyses, exhibits, ledger
 from necropsy.store.db import Database, open_database
 
@@ -66,9 +67,10 @@ def build_parser() -> argparse.ArgumentParser:
         help="validate fixtures against the manifest and change nothing",
     )
     mode.add_argument(
-        "--write-fixtures",
+        "--refresh",
         action="store_true",
-        help="regenerate the committed specimen fixtures from specimens.py",
+        help="capture each manifest entry live from the GitHub API, rewrite its "
+        "fixture as api_verified, then seed the wall from the captures",
     )
 
     analyze_parser = sub.add_parser("analyze", help="analyze one repository")
@@ -111,16 +113,17 @@ def cmd_init_db(db: Database) -> int:
 
 
 def cmd_seed_graveyard(db: Database, cfg: Config, args: argparse.Namespace) -> int:
-    if args.write_fixtures:
-        written = write_specimen_fixtures()
-        print(f"wrote {len(written)} specimen fixture(s):")
-        for path in written:
-            print(f"  {path.name}")
-        print(
-            "\nThese are compiled specimens, not captures of live repositories. "
-            "See necropsy/graveyard/specimens.py."
-        )
-        return 0
+    if args.refresh:
+        if not cfg.github_token:
+            print(
+                "refresh needs GITHUB_TOKEN: it captures real payloads from the "
+                "GitHub API. Unset, the wall stays as it is.",
+                file=sys.stderr,
+            )
+            return 1
+        report = seed_refresh(db, config=cfg)
+        print(report.render())
+        return report.exit_code
 
     report = seed(db, config=cfg, verify_only=bool(args.verify))
     print(report.render())
