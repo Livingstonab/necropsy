@@ -8,7 +8,7 @@
   },
   "then": {
     "type": "runCommand",
-    "command": "python -m necropsy.cli init-db & python -m necropsy.cli seed-graveyard --manifest necropsy/graveyard/manifest.json --report & python -m necropsy.cli seed-graveyard --manifest necropsy/graveyard/manifest.json --offline --verify",
+    "command": "python -m necropsy.cli init-db & python -m necropsy.cli seed-graveyard & python -m necropsy.cli seed-graveyard --verify",
     "timeout": 600
   }
 }

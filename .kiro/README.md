@@ -2,7 +2,7 @@
 
 NECROPSY was built spec-first. This directory is the working spec, not documentation written after the fact. It is committed deliberately and appears in no `.gitignore` at any level.
 
-Submission: Kiroween 2026, category **Frankenstein**.
+Submission: Kiroween 2026, category **Costume Contest**.
 
 ```
 .kiro/
@@ -14,7 +14,8 @@ Submission: Kiroween 2026, category **Frankenstein**.
 │       └── tasks.md                        ordered 3-week task list, D/S/P classified
 ├── steering/
 │   ├── product.md                         P1 … P10, always included
-│   └── engineering.md                     E1 … E15, always included
+│   ├── engineering.md                     E1 … E15, always included
+│   └── revival-protocol.md                how Kiro uses the MCP tools to revive a repo (manual)
 └── hooks/
     ├── analysis-pipeline-guard.kiro.hook
     ├── regenerate-demo-graveyard.kiro.hook
@@ -59,6 +60,12 @@ Fifteen engineering rules. E1–E5 are the five demo-failure-prevention rules st
 
 **How it was used.** Loaded into every session, so these constraints apply to code Kiro generates without being restated per prompt. Each rule is also an enforcement mechanism rather than an aspiration: E1 is tested with an `LlmClient` that raises on call, E2 is a counter in the client that raises on call 11, E4 is an import-guard test plus the `no-clone-guard` hook, E6 is a Hypothesis determinism property, and E5 is the contribution-identity property.
 
+## `steering/revival-protocol.md` — manual inclusion
+
+Five numbered steps and three hard rules for how a Kiro session should revive a dead repository using NECROPSY's MCP tools: analyze first, read the plan, write `revival-spec.md`, order tasks by dependency, and never delete a file the analysis does not confirm is unreferenced. The hard rules are never to invent a step that is not in the analysis, never to call the LLM when a cached exhibit exists, and to carry the evidence citations into the spec.
+
+**How it was used.** It is `inclusion: manual`, pulled in with `#` only when reviving a repo, so it does not add context to ordinary sessions. It is the Kiro-side half of the `write_revival_spec` tool: the tool assembles the document from the analysis, and this file tells Kiro not to improvise beyond it.
+
 ---
 
 ## Hooks
@@ -78,10 +85,10 @@ Fifteen engineering rules. E1–E5 are the five demo-failure-prevention rules st
 | | |
 |---|---|
 | **Trigger** | `userTriggered` (run manually from the Agent Hooks panel) |
-| **Action** | `runCommand`: `init-db`, then `seed-graveyard --manifest necropsy/graveyard/manifest.json --report`, then `seed-graveyard --offline --verify` |
+| **Action** | `runCommand`: `init-db`, then `seed-graveyard` (loads the committed fixtures, no network), then `seed-graveyard --verify` (validates every fixture against the manifest and changes nothing) |
 | **Timeout** | 600 s |
 
-**Why it exists.** The demo graveyard is the demo path (P4), so it cannot be whatever happens to be sitting in a local database. This hook rebuilds all eight curated exhibits from the committed manifest at their pinned commit SHAs, reports per entry whether it was served from cache, refetched or failed, and exits non-zero if any entry cannot be materialized. The third command then re-runs the loader in `--offline --verify` mode, which proves the committed fixtures alone are sufficient — the same condition a judge's machine will be in with the network unplugged and no API keys. It is manual rather than automatic because the refetch path spends GitHub quota, and spending quota should be an explicit decision (E2).
+**Why it exists.** The demo graveyard is the demo path (P4), so it cannot be whatever happens to be sitting in a local database. This hook rebuilds all eight curated exhibits from the committed manifest at their pinned commit SHAs, reports per entry whether it was served from cache, refetched or failed, and exits non-zero if any entry cannot be materialized. The third command re-runs the loader in `--verify` mode, which proves the committed fixtures alone are sufficient — the same condition a judge's machine will be in with the network unplugged and no API keys. It is manual so that re-seeding is always a deliberate act. Re-capturing the wall from GitHub is a separate command (`seed-graveyard --refresh`) because it spends API quota, and spending quota should be an explicit decision (E2); this hook never does that.
 
 ### 3. `no-clone-guard.kiro.hook`
 
@@ -104,7 +111,7 @@ NECROPSY's own MCP server is registered in `.kiro/settings/mcp.json` so Kiro can
   "mcpServers": {
     "necropsy": {
       "command": "python",
-      "args": ["-m", "necropsy.mcp.server"],
+      "args": ["-m", "necropsy.cli", "mcp"],
       "env": { "DATABASE_PATH": "./necropsy.db" },
       "disabled": false,
       "autoApprove": ["list_graveyard", "get_exhibit"]
@@ -113,9 +120,9 @@ NECROPSY's own MCP server is registered in `.kiro/settings/mcp.json` so Kiro can
 }
 ```
 
-`list_graveyard` and `get_exhibit` are auto-approved because they are read-only, cache-only and make zero network calls. `analyze_repo` is not auto-approved, because a cache miss spends GitHub quota and one LLM call.
+The server exposes four tools: `analyze_repo`, `get_exhibit`, `list_graveyard` and `write_revival_spec`. `list_graveyard` and `get_exhibit` are auto-approved because they are read-only, cache-only and make zero network calls. `analyze_repo` is not auto-approved, because a cache miss spends GitHub quota and one LLM call. `write_revival_spec` reads the cache only and returns a ready-made Markdown spec; it never triggers an analysis.
 
-The loop this enables, which is recorded for the submission: point Kiro at a dead repository → Kiro calls `analyze_repo` → Kiro reads the structured post-mortem → Kiro writes a revival spec into `.kiro/specs/{owner}-{repo}-revival/`, mapping each `whats_missing` item and each `resurrection_plan` step to a requirement and each non-zero scorecard factor to an acceptance criterion. The generated spec is committed alongside this one as evidence. The `analyze_repo` output shape in `design.md` §7.1 exists in that form specifically so Kiro transforms structured lists rather than re-parsing prose.
+The loop this enables: point Kiro at a dead repository → Kiro calls `analyze_repo` → Kiro reads the structured post-mortem → Kiro calls `write_revival_spec` (or writes the spec itself, following `steering/revival-protocol.md`) into `.kiro/specs/{owner}-{repo}-revival/`, mapping each `whats_missing` item and each `resurrection_plan` step to a task and each non-zero scorecard factor to an acceptance criterion. The `analyze_repo` output shape in `design.md` §7.1 exists in that form specifically so Kiro transforms structured lists rather than re-parsing prose. The web app's "Resurrect in Kiro" button and the MCP tool share one builder (`necropsy/mcp/revival.py`), so both surfaces emit identical specs.
 
 ## Reading order for a reviewer
 
