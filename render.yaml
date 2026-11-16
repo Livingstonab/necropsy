@@ -1,9 +1,24 @@
 # Render blueprint for NECROPSY (https://render.com).
 #
-# One Docker web service plus a small persistent disk for the SQLite cache. The
-# graveyard is baked into the image, so the site is live on first deploy with no
-# configuration. Add GITHUB_TOKEN / LLM_API_KEY in the dashboard to enable faster
-# live analysis and model-written narratives; neither is required.
+# One Docker web service on the free plan. The graveyard is baked into the image
+# at build time, so the site is live on first deploy with no configuration and no
+# keys. Add GITHUB_TOKEN / LLM_API_KEY in the dashboard to enable faster live
+# analysis and model-written narratives; neither is required.
+#
+# No persistent disk, deliberately: Render does not offer one on free web
+# services, and the wall does not need it — it is rebuilt from the image on every
+# boot. What that costs you is that a visitor's own analyses live only as long as
+# the container instance does, and a redeploy starts clean. If you later move to a
+# paid plan and want them to survive, add back:
+#
+#   disk:
+#     name: necropsy-data
+#     mountPath: /data
+#     sizeGB: 1
+#
+# The free plan also spins the service down after 15 minutes without traffic, so
+# the first visit after a quiet spell waits for a cold start. Open the site before
+# you record a demo.
 #
 # Deploy: push this repo to GitHub, then on Render choose "New +" -> "Blueprint"
 # and point it at the repo. Render reads this file.
@@ -28,7 +43,3 @@ services:
         sync: false
       - key: LLM_MODEL
         sync: false
-    disk:
-      name: necropsy-data
-      mountPath: /data
-      sizeGB: 1

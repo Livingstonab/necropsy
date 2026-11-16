@@ -89,6 +89,12 @@ seeded graveyard, so the site is live on first deploy with no configuration. Add
 `GITHUB_TOKEN` (and optionally `LLM_PROVIDER` / `LLM_API_KEY`) in the platform's
 environment to enable faster live analysis and model-written narratives.
 
+On Render's free plan there is no persistent disk, so the wall is rebuilt from the
+image at every boot and a visitor's own analyses live only as long as the
+container instance does. The free plan also spins the service down after 15
+minutes without traffic, so the first visitor after a quiet spell waits out a cold
+start. Neither affects the demo wall, which needs no network and no keys.
+
 ## MCP
 
 NECROPSY exposes its pipeline to Kiro over the Model Context Protocol:
