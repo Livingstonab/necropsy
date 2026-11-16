@@ -117,10 +117,6 @@ a:hover { color: var(--ink); }
 }
 
 .room { max-width: 1080px; margin: 0 auto; padding: 0 1.25rem 4rem; position: relative; z-index: 2; }
-.room-footer {
-  max-width: 720px; margin: 0 auto; padding: 2rem 1.25rem 3rem;
-  color: var(--ink-dim); font-size: 0.82rem; text-align: center; position: relative; z-index: 2;
-}
 
 /* -- submit panel -------------------------------------------------------- */
 .submit-panel { position: relative; text-align: center; padding: 2.5rem 1rem 3rem; }
