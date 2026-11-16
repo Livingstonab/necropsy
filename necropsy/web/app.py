@@ -208,7 +208,7 @@ def _register_routes(app: Flask) -> None:
         """Budget, cache and config state. `token_present` is a boolean (E12)."""
         conn = db.connect()
         state = ledger.latest(conn)
-        return jsonify(
+        response = jsonify(
             {
                 "ok": True,
                 "cache_entries": analyses.count_analyses(conn),
@@ -225,6 +225,12 @@ def _register_routes(app: Flask) -> None:
                 "reset_at": state.reset_at if state else None,
             }
         )
+        # The static front door lives on a different origin and polls this route
+        # to learn when a sleeping free instance has finished booting. Health is
+        # the only route that is cross-readable, and it carries no secret (E12).
+        response.headers["Access-Control-Allow-Origin"] = "*"
+        response.headers["Cache-Control"] = "no-store"
+        return response
 
 
 # --------------------------------------------------------------------------

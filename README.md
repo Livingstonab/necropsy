@@ -95,6 +95,21 @@ container instance does. The free plan also spins the service down after 15
 minutes without traffic, so the first visitor after a quiet spell waits out a cold
 start. Neither affects the demo wall, which needs no network and no keys.
 
+### The front door
+
+`frontdoor/index.html` is a single static page whose only job is to keep that cold
+start from looking like a broken site. A sleeping service cannot serve a loading
+page — nothing is running to serve it — so the door lives somewhere that never
+sleeps and points inward. On arrival it probes `/api/health`; if the gallery is
+already awake it walks the visitor straight in, and if not it wakes the instance,
+reports what is on the wall once the boot finishes, and hands over a working link
+either way. `/api/health` carries `Access-Control-Allow-Origin: *` for exactly
+this probe and is the only route that does; everything else stays same-origin.
+
+Serve it from any static host. On GitHub Pages: **Settings → Pages → Source:
+Deploy from a branch → `main` → `/frontdoor`**. The door hard-codes the gallery's
+address, so change `APP` in the script if the Render service moves.
+
 ## MCP
 
 NECROPSY exposes its pipeline to Kiro over the Model Context Protocol:

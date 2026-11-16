@@ -143,6 +143,19 @@ def test_health_never_leaks_a_secret(client: FlaskClient) -> None:
     assert "ghp_" not in raw and "sk-" not in raw
 
 
+def test_health_is_the_only_route_the_front_door_can_read(
+    client: FlaskClient,
+) -> None:
+    """The static door polls /api/health across origins to time a cold start.
+
+    That header is deliberately scoped to the one route with nothing to hide:
+    an exhibit page or the analysis API staying unreadable from another origin
+    is the line that keeps this from turning the app into someone's tracker.
+    """
+    assert client.get("/api/health").headers["Access-Control-Allow-Origin"] == "*"
+    assert "Access-Control-Allow-Origin" not in client.get("/api/exhibits").headers
+
+
 # -- the upgraded plaque ---------------------------------------------------
 def test_exhibit_shows_vital_signs(client: FlaskClient) -> None:
     body = client.get(f"/exhibit/{EXHIBIT}").get_data(as_text=True)
