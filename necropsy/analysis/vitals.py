@@ -16,6 +16,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 
+from necropsy import LIVING_THRESHOLD_DAYS
 from necropsy.models.facts import NormalizedFacts
 
 #: Dependency names (lowercased, substring-matched) that imply a datastore. Drawn
@@ -89,7 +90,10 @@ def pulse_line(days: int) -> tuple[str, str]:
         return "Last commit yesterday.", "The work is still warm."
     if days <= 7:
         return f"Last commit {days} days ago.", "Committed to within the week."
-    return f"Last commit {days} days ago.", "Committed to within the month."
+    return (
+        f"Last commit {days} days ago.",
+        f"Committed to within the last {LIVING_THRESHOLD_DAYS} days.",
+    )
 
 
 def compute_vitals(facts: NormalizedFacts) -> Vitals:

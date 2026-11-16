@@ -54,16 +54,16 @@ def _facts(days: int, **overrides):
 
 
 # -- the rule --------------------------------------------------------------
-def test_threshold_is_thirty_days() -> None:
-    assert LIVING_THRESHOLD_DAYS == 30
+def test_threshold_is_ten_days() -> None:
+    assert LIVING_THRESHOLD_DAYS == 10
 
 
-@pytest.mark.parametrize("days", [0, 1, 2, 3, 4, 7, 15, 29])
+@pytest.mark.parametrize("days", [0, 1, 2, 3, 4, 7, 9])
 def test_recently_committed_repos_are_living(days: int) -> None:
     assert _facts(days).is_living is True
 
 
-@pytest.mark.parametrize("days", [30, 31, 90, 400, 5000])
+@pytest.mark.parametrize("days", [10, 11, 30, 90, 400, 5000])
 def test_quiet_repos_are_not_living(days: int) -> None:
     assert _facts(days).is_living is False
 
@@ -127,8 +127,8 @@ def test_missing_sentence_has_no_doubled_article() -> None:
 
 
 def test_a_dead_repo_still_gets_the_full_narrative() -> None:
-    """The boundary: 30 days is where the autopsy begins."""
-    facts = _facts(30)
+    """The boundary: ten days is where the autopsy begins."""
+    facts = _facts(LIVING_THRESHOLD_DAYS)
     result = narrate(None, facts, score(ScorecardInput.from_facts(facts)))
     assert result.narrative.living is False
     assert result.narrative.final_letter.source == "template"
@@ -149,7 +149,8 @@ def test_pulse_line_states_only_what_is_known() -> None:
     assert pulse_line(1)[0] == "Last commit yesterday."
     assert pulse_line(4)[0] == "Last commit 4 days ago."
     assert "week" in pulse_line(4)[1]
-    assert "month" in pulse_line(20)[1]
+    last_living_day = LIVING_THRESHOLD_DAYS - 1
+    assert f"{LIVING_THRESHOLD_DAYS} days" in pulse_line(last_living_day)[1]
     for days in range(LIVING_THRESHOLD_DAYS):
         text = " ".join(pulse_line(days)).lower()
         assert not any(w in text for w in DEATH_VOCABULARY), text
