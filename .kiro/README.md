@@ -2,7 +2,7 @@
 
 NECROPSY was built spec-first. This directory is the working spec, not documentation written after the fact. It is committed deliberately and appears in no `.gitignore` at any level.
 
-Submission: Kiroween 2026, category **Costume Contest**.
+Submission: Kiroween 2026, category **Frankenstein**.
 
 ```
 .kiro/
